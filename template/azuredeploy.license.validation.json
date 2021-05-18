@@ -3,10 +3,6 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "BoomiAuthenticationType": {
-      "allowedValues": [
-        "password",
-        "token"
-      ],
       "type": "string",
       "metadata": {
         "description": "Boomi Platform Authentication Type"
