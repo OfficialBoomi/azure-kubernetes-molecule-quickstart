@@ -1,0 +1,324 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkAddressPrefixes": {
+      "defaultValue": "10.0.0.0/8",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address prefixes of the virtual network."
+      }
+    },
+    "aksSubnetAddressPrefix": {
+      "defaultValue": "10.0.0.0/16",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address prefix of the subnet hosting the system node pool of the AKS cluster."
+      }
+    },
+    "applicationGatewaySubnetAddressPrefix": {
+      "defaultValue": "10.1.0.0/20",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address prefix of the subnet which contains the Application Gateway."
+      }
+    },
+    "virtualMachineSubnetAddressPrefix": {
+      "defaultValue": "10.16.0.0/20",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address prefix of the subnet which contains the virtual machine."
+      }
+    },
+    "netAppFileSubnetAddressPrefix": {
+      "defaultValue": "10.2.0.0/20",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address prefix of the subnet which contains the NetApp File System"
+      }
+    },
+    "netAppServiceLevel": {
+      "defaultValue": "Standard",
+      "type": "string",
+      "allowedValues": [
+        "Premium",
+        "Ultra",
+        "Standard"
+      ],
+      "metadata": {
+        "description": "Target performance for the capacity pool. Service level: Ultra, Premium, or Standard."
+      }
+    },
+    "aksClusterKubernetesVersion": {
+      "defaultValue": "1.19.7",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
+      }
+    },
+    "aksClusterEnablePrivateCluster": {
+      "defaultValue": false,
+      "type": "bool",
+      "metadata": {
+        "description": "Specifies whether to create the cluster as a private cluster or not."
+      }
+    },
+    "aksClusterSkuTier": {
+      "defaultValue": "Paid",
+      "type": "string",
+      "allowedValues": [
+        "Paid",
+        "Free"
+      ],
+      "metadata": {
+        "description": "Specifies the tier of a managed cluster SKU: Paid or Free"
+      }
+    },
+    "aksClusterDnsPrefix": {
+      "defaultValue": "aks",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the DNS prefix specified when creating the managed cluster."
+      }
+    },
+    "aksSystemNodePoolAgentCount": {
+      "defaultValue": 1,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
+      }
+    },
+    "aksUserNodePoolAgentCount": {
+      "defaultValue": 3,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
+      }
+    },
+    "aksNodePoolVmSize": {
+      "defaultValue": "Standard_D3_v2",
+      "type": "string",
+      "metadata": {
+        "description": "The size of the Virtual Machine."
+      }
+    },
+    "aksClusterPodCidr": {
+      "defaultValue": "10.244.0.0/16",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
+      }
+    },
+    "aksClusterServiceCidr": {
+      "defaultValue": "10.3.0.0/16",
+      "type": "string",
+      "metadata": {
+        "description": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges."
+      }
+    },
+    "aksClusterDnsServiceIP": {
+      "defaultValue": "10.3.0.10",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
+      }
+    },
+    "aksClusterDockerBridgeCidr": {
+      "defaultValue": "172.17.0.1/16",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range."
+      }
+    },
+    "virtualMachineSize": {
+      "defaultValue": "Standard_DS1_v2",
+      "type": "string",
+      "metadata": {
+        "description": "Virtual machine size (has to be at least the size of Standard_A3 to support 2 NICs)"
+      }
+    },
+    "virtualMachineAdminUsername": {
+      "defaultValue": "boomi",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the administrator account of the virtual machine."
+      }
+    },
+    "virtualMachineAdminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specifies the password for the virtual machine."
+      }
+    },
+    "BoomiAuthenticationType": {
+      "defaultValue": "token",
+      "allowedValues": [
+        "token",
+        "password"
+      ],
+      "type": "string",
+      "metadata": {
+        "description": "Boomi Platform Authentication Type"
+      }
+    },
+    "MoleculeAccountID": {
+      "type": "string",
+      "metadata": {
+        "description": "The Boomi account ID that you want to associate with the new Molecule cluster."
+      }
+    },
+    "MoleculeUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The email account associated with the Boomi account."
+      }
+    },
+    "BoomiMFAAPIToken": {
+      "defaultValue": "",
+      "type": "securestring",
+      "metadata": {
+        "description": "An MFA API token generated by your Dell Boomi Administrator."
+      }
+    },
+    "MoleculePassword": {
+      "defaultValue": "",
+      "type": "securestring",
+      "metadata": {
+        "description": "The password associated with the Boomi account."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "BoomiLicenseValidation",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/template/azuredeploy.license.validation.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "BoomiAuthenticationType": {
+            "value": "[parameters('BoomiAuthenticationType')]"
+          },
+          "MoleculeAccountID": {
+            "value": "[parameters('MoleculeAccountID')]"
+          },
+          "MoleculeUsername": {
+            "value": "[parameters('MoleculeUsername')]"
+          },
+          "BoomiMFAAPIToken": {
+            "value": "[parameters('BoomiMFAAPIToken')]"
+          },
+          "MoleculePassword": {
+            "value": "[parameters('MoleculePassword')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "BoomiQSInfrastructure",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "dependsOn": [
+        "BoomiLicenseValidation"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/template/azuredeploy.license.check.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "deploymentCondition": {
+            "value": "[reference('BoomiLicenseValidation').outputs.licenseValidation.value]"
+          },
+          "virtualNetworkAddressPrefixes": {
+            "value": "[parameters('virtualNetworkAddressPrefixes')]"
+          },
+          "virtualMachineSubnetAddressPrefix": {
+            "value": "[parameters('virtualMachineSubnetAddressPrefix')]"
+          },
+          "aksSubnetAddressPrefix": {
+            "value": "[parameters('aksSubnetAddressPrefix')]"
+          },
+          "applicationGatewaySubnetAddressPrefix": {
+            "value": "[parameters('applicationGatewaySubnetAddressPrefix')]"
+          },
+          "netAppFileSubnetAddressPrefix": {
+            "value": "[parameters('netAppFileSubnetAddressPrefix')]"
+          },
+          "netAppServiceLevel": {
+            "value": "[parameters('netAppServiceLevel')]"
+          },
+          "aksClusterKubernetesVersion": {
+            "value": "[parameters('aksClusterKubernetesVersion')]"
+          },
+          "aksClusterEnablePrivateCluster": {
+            "value": "[parameters('aksClusterEnablePrivateCluster')]"
+          },
+          "aksClusterSkuTier": {
+            "value": "[parameters('aksClusterSkuTier')]"
+          },
+          "aksClusterDnsPrefix": {
+            "value": "[parameters('aksClusterDnsPrefix')]"
+          },
+          "aksSystemNodePoolAgentCount": {
+            "value": "[parameters('aksSystemNodePoolAgentCount')]"
+          },
+          "aksUserNodePoolAgentCount": {
+            "value": "[parameters('aksUserNodePoolAgentCount')]"
+          },
+          "aksNodePoolVmSize": {
+            "value": "[parameters('aksNodePoolVmSize')]"
+          },
+          "aksClusterPodCidr": {
+            "value": "[parameters('aksClusterPodCidr')]"
+          },
+          "aksClusterServiceCidr": {
+            "value": "[parameters('aksClusterServiceCidr')]"
+          },
+          "aksClusterDnsServiceIP": {
+            "value": "[parameters('aksClusterDnsServiceIP')]"
+          },
+          "aksClusterDockerBridgeCidr": {
+            "value": "[parameters('aksClusterDockerBridgeCidr')]"
+          },
+          "virtualMachineSize": {
+            "value": "[parameters('virtualMachineSize')]"
+          },
+          "virtualMachineAdminUsername": {
+            "value": "[parameters('virtualMachineAdminUsername')]"
+          },
+          "virtualMachineAdminPassword": {
+            "value": "[parameters('virtualMachineAdminPassword')]"
+          },
+          "BoomiAuthenticationType": {
+            "value": "[parameters('BoomiAuthenticationType')]"
+          },
+          "MoleculeAccountID": {
+            "value": "[parameters('MoleculeAccountID')]"
+          },
+          "MoleculeUsername": {
+            "value": "[parameters('MoleculeUsername')]"
+          },
+          "BoomiMFAInstallToken": {
+            "value": "[reference('BoomiLicenseValidation').outputs.installationToken.value]"
+          },
+          "MoleculePassword": {
+            "value": "[parameters('MoleculePassword')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "licenseValidation": {
+      "type": "string",
+      "value": "[reference('BoomiLicenseValidation').outputs.licenseValidation.value]"
+    }
+  }
+}

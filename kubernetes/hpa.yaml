@@ -1,0 +1,24 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: molecule-hpa
+  labels:
+    app: molecule
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: StatefulSet
+    name: molecule
+  minReplicas: 3
+  maxReplicas: 200
+  ## Kubernetes v1.18 dependent.
+  #behavior:
+  #  scaleDown:
+  #    stabilizationWindowSeconds: 60
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
