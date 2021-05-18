@@ -6,7 +6,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
-    appgw.ingress.kubernetes.io/health-probe-port: "9090"
 spec:
   rules:
   - http:
