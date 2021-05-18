@@ -239,14 +239,14 @@
           "virtualNetworkAddressPrefixes": {
             "value": "[parameters('virtualNetworkAddressPrefixes')]"
           },
-          "virtualMachineSubnetAddressPrefix": {
-            "value": "[parameters('virtualMachineSubnetAddressPrefix')]"
-          },
           "aksSubnetAddressPrefix": {
             "value": "[parameters('aksSubnetAddressPrefix')]"
           },
           "applicationGatewaySubnetAddressPrefix": {
             "value": "[parameters('applicationGatewaySubnetAddressPrefix')]"
+          },
+          "virtualMachineSubnetAddressPrefix": {
+            "value": "[parameters('virtualMachineSubnetAddressPrefix')]"
           },
           "netAppFileSubnetAddressPrefix": {
             "value": "[parameters('netAppFileSubnetAddressPrefix')]"
