@@ -278,7 +278,7 @@
             "value": "[parameters('MoleculeUsername')]"
           },
           "BoomiMFAInstallToken": {
-            "value": "[reference('BoomiLicenseValidation').outputs.installationToken.value]"
+            "value": "[parameters('BoomiMFAInstallToken')]"
           },
           "MoleculePassword": {
             "value": "[parameters('MoleculePassword')]"
