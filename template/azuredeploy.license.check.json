@@ -287,5 +287,10 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "virtualMachinePublicIpAddress": {
+      "type": "string",
+      "value": "[reference('BoomiAKSQuickStart').outputs.virtualMachinePublicIpAddress.value]"
+    }
+  }
 }

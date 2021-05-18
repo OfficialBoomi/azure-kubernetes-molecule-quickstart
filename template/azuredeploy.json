@@ -319,6 +319,10 @@
     "licenseValidation": {
       "type": "string",
       "value": "[reference('BoomiLicenseValidation').outputs.licenseValidation.value]"
+    },
+    "virtualMachinePublicIpAddress": {
+      "type": "string",
+      "value": "[reference('BoomiQSInfrastructure').outputs.virtualMachinePublicIpAddress.value]"
     }
   }
 }
