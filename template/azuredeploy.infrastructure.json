@@ -45,7 +45,7 @@
       }
     },
     "virtualMachineSubnetAddressPrefix": {
-      "defaultValue": "10.16.0.0/20",
+      "defaultValue": "10.1.16.0/20",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the virtual machine."
@@ -518,7 +518,7 @@
             "name": "[parameters('aksSubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('aksSubnetAddressPrefix')]",
-              "privateEndpointNetworkPolicies": "Enabled",
+              "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled"
             }
           },
@@ -526,7 +526,7 @@
             "name": "[parameters('applicationGatewaySubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('applicationGatewaySubnetAddressPrefix')]",
-              "privateEndpointNetworkPolicies": "Enabled",
+              "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled"
             }
           },
@@ -537,7 +537,7 @@
               "networkSecurityGroup": {
                 "id": "[variables('virtualMachineSubnetNsgId')]"
               },
-              "privateEndpointNetworkPolicies": "Enabled",
+              "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled"
             }
           },
@@ -545,7 +545,7 @@
             "name": "[parameters('netAppFileSubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('netAppFileSubnetAddressPrefix')]",
-              "privateEndpointNetworkPolicies": "Enabled",
+              "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled",
               "delegations": [
                 {
