@@ -56,6 +56,13 @@
         "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
       }
     },
+    "aksClusterAvailabilityZones": {
+      "defaultValue": [ "1", "2", "3" ],
+      "type": "array",
+      "metadata": {
+        "description": "Specifies the availability zones for the agent nodes in the system/user node pool. Requirese the use of VirtualMachineScaleSets as node pool type."
+      }
+    },
     "aksClusterEnablePrivateCluster": {
       "defaultValue": false,
       "type": "bool",
@@ -256,6 +263,9 @@
           },
           "aksClusterKubernetesVersion": {
             "value": "[parameters('aksClusterKubernetesVersion')]"
+          },
+          "aksClusterAvailabilityZones": {
+            "value": "[parameters('aksClusterAvailabilityZones')]"
           },
           "aksClusterEnablePrivateCluster": {
             "value": "[parameters('aksClusterEnablePrivateCluster')]"
