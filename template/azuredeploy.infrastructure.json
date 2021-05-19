@@ -680,6 +680,7 @@
             "scaleSetEvictionPolicy": "Delete",
             "mode": "System",
             "type": "VirtualMachineScaleSets",
+            "availabilityZones": [],
             "nodeLabels": {},
             "nodeTaints": []
           }
@@ -732,6 +733,7 @@
         "scaleSetEvictionPolicy": "Delete",
         "mode": "User",
         "type": "VirtualMachineScaleSets",
+        "availabilityZones": [],
         "nodeLabels": {},
         "nodeTaints": [],
         "orchestratorVersion": "[parameters('aksClusterKubernetesVersion')]"
