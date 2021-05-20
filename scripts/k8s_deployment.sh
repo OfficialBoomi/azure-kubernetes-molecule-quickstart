@@ -187,7 +187,7 @@ rm /tmp/secrets.yaml
 rm /tmp/persistentvolume.yaml
 rm /tmp/persistentvolumeclam.yaml
 
-sleep 600
+sleep 300
 
 az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
 
