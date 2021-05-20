@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "virtualNetworkAddressPrefixes": {
-      "defaultValue": "10.0.0.0/8",
+      "defaultValue": "10.0.0.0/20",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefixes of the virtual network."
@@ -17,7 +17,7 @@
       }
     },
     "aksSubnetAddressPrefix": {
-      "defaultValue": "10.0.0.0/16",
+      "defaultValue": "10.0.0.0/23",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet hosting the system node pool of the AKS cluster."
@@ -31,7 +31,7 @@
       }
     },
     "applicationGatewaySubnetAddressPrefix": {
-      "defaultValue": "10.1.0.0/20",
+      "defaultValue": "10.0.2.0/24",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the Application Gateway."
@@ -45,7 +45,7 @@
       }
     },
     "virtualMachineSubnetAddressPrefix": {
-      "defaultValue": "10.1.16.0/20",
+      "defaultValue": "10.0.3.0/24",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the virtual machine."
@@ -59,7 +59,7 @@
       }
     },
     "netAppFileSubnetAddressPrefix": {
-      "defaultValue": "10.2.0.0/20",
+      "defaultValue": "10.0.4.0/24",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the NetApp File System"
@@ -152,21 +152,21 @@
       }
     },
     "aksClusterPodCidr": {
-      "defaultValue": "10.244.0.0/16",
+      "defaultValue": "10.0.15.0/24",
       "type": "string",
       "metadata": {
         "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
       }
     },
     "aksClusterServiceCidr": {
-      "defaultValue": "10.3.0.0/16",
+      "defaultValue": "10.0.4.0/24",
       "type": "string",
       "metadata": {
         "description": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges."
       }
     },
     "aksClusterDnsServiceIP": {
-      "defaultValue": "10.3.0.10",
+      "defaultValue": "10.0.4.10",
       "type": "string",
       "metadata": {
         "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
@@ -270,11 +270,11 @@
     "virtualMachineSubnetNsgName": "[concat(parameters('virtualMachineSubnetName'), 'Nsg')]",
     "virtualMachineSubnetNsgId": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('virtualMachineSubnetNsgName'))]",
 
-
     "virtualMachinePublicIpAddressName": "[concat(parameters('virtualMachineName'),'PublicIp')]",
     "virtualMachinePublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('virtualMachinePublicIpAddressName'))]",
 
     "aksClusterId": "[resourceId('Microsoft.ContainerService/managedClusters', parameters('aksClusterName'))]",
+
     "netAppFileDelegationsName": "[concat(parameters('aksClusterName'), '-netAppDelegation')]",
     "netAppAccountName": "[concat(tolower(parameters('aksClusterName')), uniqueString(resourceGroup().id))]",
     "netAppAccountId": "[resourceId('Microsoft.NetApp/netAppAccounts/', variables('netAppAccountName'))]",
@@ -283,7 +283,9 @@
     "capacityPoolId": "[resourceId('Microsoft.NetApp/netAppAccounts/capacityPools', variables('netAppAccountName'), variables('netAppPoolName'))]",
     "netAppVolumeName": "[concat('volume', uniqueString(resourceGroup().id))]",
     "volumeName": "[concat(variables('netAppAccountName'), '/',variables('netAppPoolName'),'/', variables('netAppVolumeName'))]",
-    "netAppVolumeId": "[resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes', variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))]"
+    "netAppVolumeId": "[resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes', variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))]",
+
+    "nodeResourceGroup": "[concat(resourceGroup().name, '-appGatewayResourceGroup')]"
   },
   "resources": [
     {
@@ -358,7 +360,7 @@
       "identity": {
         "type": "UserAssigned",
         "userAssignedIdentities": {
-          "[variables('virtualMachineUserDefinedManagedIdentityId')]": {}
+          "[variables('aksClusterUserDefinedManagedIdentityId')]": {}
         }
       },
       "dependsOn": [
@@ -424,7 +426,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/scripts/k8s_deployment.sh"
           ],
-          "commandToExecute": "[concat('./k8s_deployment.sh', ' --resource_group \"', resourceGroup().name, '\" --aks_name \"', parameters('aksClusterName'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiMFAInstallToken'), '\" --boomi_username \"', parameters('MoleculeUsername'), '\" --boomi_password \"', parameters('MoleculePassword'), '\" --boomi_account \"', parameters('MoleculeAccountID'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/', variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress, '\"')]"
+          "commandToExecute": "[concat('./k8s_deployment.sh', ' --resource_group \"', resourceGroup().name,' --node_resource_group \"', variables('nodeResourceGroup'), '\" --aks_name \"', parameters('aksClusterName'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiMFAInstallToken'), '\" --boomi_username \"', parameters('MoleculeUsername'), '\" --boomi_password \"', parameters('MoleculePassword'), '\" --boomi_account \"', parameters('MoleculeAccountID'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/', variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress, '\"')]"
         }
       }
     },
@@ -665,6 +667,7 @@
       ],
       "properties": {
         "kubernetesVersion": "[parameters('aksClusterKubernetesVersion')]",
+        "nodeResourceGroup": "[variables('nodeResourceGroup')]",
         "dnsPrefix": "[parameters('aksClusterDnsPrefix')]",
         "sku": {
           "name": "Basic",
