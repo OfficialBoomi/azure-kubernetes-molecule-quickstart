@@ -9,6 +9,10 @@ do
       resource_group="$1"
       shift
       ;;
+    --node_resource_group|-nrg)
+      node_resource_group="$1"
+      shift
+      ;;
     --aks_name|-an)
       aks_name="$1"
       shift
@@ -182,3 +186,8 @@ kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boom
 rm /tmp/secrets.yaml
 rm /tmp/persistentvolume.yaml
 rm /tmp/persistentvolumeclam.yaml
+
+sleep 600
+
+az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
+
