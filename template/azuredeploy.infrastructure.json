@@ -31,7 +31,7 @@
       }
     },
     "applicationGatewaySubnetAddressPrefix": {
-      "defaultValue": "10.0.2.0/24",
+      "defaultValue": "10.0.2.0/25",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the Application Gateway."
@@ -45,7 +45,7 @@
       }
     },
     "virtualMachineSubnetAddressPrefix": {
-      "defaultValue": "10.0.3.0/24",
+      "defaultValue": "10.0.3.0/25",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the virtual machine."
@@ -59,7 +59,7 @@
       }
     },
     "netAppFileSubnetAddressPrefix": {
-      "defaultValue": "10.0.4.0/24",
+      "defaultValue": "10.0.4.0/25",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the NetApp File System"
@@ -92,7 +92,7 @@
       }
     },
     "aksClusterKubernetesVersion": {
-      "defaultValue": "1.19.7",
+      "defaultValue": "1.20.5",
       "type": "string",
       "metadata": {
         "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
