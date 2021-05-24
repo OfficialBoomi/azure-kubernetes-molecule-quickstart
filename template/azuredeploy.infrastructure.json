@@ -45,7 +45,7 @@
       }
     },
     "virtualMachineSubnetAddressPrefix": {
-      "defaultValue": "10.0.3.0/25",
+      "defaultValue": "10.0.2.128/25",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the virtual machine."
@@ -59,7 +59,7 @@
       }
     },
     "netAppFileSubnetAddressPrefix": {
-      "defaultValue": "10.0.4.0/25",
+      "defaultValue": "10.0.3.0/25",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the NetApp File System"
@@ -159,14 +159,14 @@
       }
     },
     "aksClusterServiceCidr": {
-      "defaultValue": "10.0.5.0/24",
+      "defaultValue": "10.0.4.0/24",
       "type": "string",
       "metadata": {
         "description": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges."
       }
     },
     "aksClusterDnsServiceIP": {
-      "defaultValue": "10.0.5.10",
+      "defaultValue": "10.0.4.10",
       "type": "string",
       "metadata": {
         "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
