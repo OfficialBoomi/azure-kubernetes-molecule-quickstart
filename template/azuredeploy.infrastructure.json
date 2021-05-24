@@ -248,15 +248,11 @@
     "contributorRoleDefinitionName": "b24988ac-6180-42a0-ab88-20f7382dd24c",
     "contributorRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('contributorRoleDefinitionName'))]",
 
-    "aksClusterUserDefinedManagedIdentityName": "[concat(parameters('aksClusterName'), 'UserManagedIdentity')]",
-    "aksClusterUserDefinedManagedIdentityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('aksClusterUserDefinedManagedIdentityName'))]",
-    "aksContributorRoleAssignmentName": "[guid(concat(resourceGroup().id, variables('aksClusterUserDefinedManagedIdentityName'), parameters('aksClusterName')))]",
-    "aksContributorRoleAssignmentId": "[resourceId('Microsoft.Authorization/roleAssignments', variables('aksContributorRoleAssignmentName'))]",
+    "userDefinedManagedIdentityName": "[concat(parameters('aksClusterName'), 'UserManagedIdentity')]",
+    "userDefinedManagedIdentityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('userDefinedManagedIdentityName'))]",
+    "contributorRoleAssignmentName": "[guid(concat(resourceGroup().id, variables('userDefinedManagedIdentityName'), parameters('aksClusterName')))]",
+    "contributorRoleAssignmentId": "[resourceId('Microsoft.Authorization/roleAssignments', variables('contributorRoleAssignmentName'))]",
 
-    "virtualMachineUserDefinedManagedIdentityName": "[concat(parameters('virtualMachineName'), '-userManagedIdentity')]",
-    "virtualMachineUserDefinedManagedIdentityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('virtualMachineUserDefinedManagedIdentityName'))]",
-    "virtualMachineContributorRoleAssignmentName": "[guid(concat(resourceGroup().id, variables('virtualMachineUserDefinedManagedIdentityName'), parameters('virtualMachineName')))]",
-    "virtualMachineContributorRoleAssignmentId": "[resourceId('Microsoft.Authorization/roleAssignments', variables('virtualMachineContributorRoleAssignmentName'))]",
     "virtualMachineNicName": "[concat(parameters('virtualMachineName'), 'Nic')]",
     "virtualMachineNicId": "[resourceId('Microsoft.Network/networkInterfaces', variables('virtualMachineNicName'))]",
     "virtualMachineId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
@@ -288,30 +284,6 @@
     "nodeResourceGroup": "[concat(resourceGroup().name, '-appGatewayResourceGroup')]"
   },
   "resources": [
-    {
-      "comments": "User-Defined Managed Identity used by the Azure Virtual Machine is assigned. Used to access Azure Cluster & NetApp Files",
-      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "name": "[variables('virtualMachineUserDefinedManagedIdentityName')]",
-      "apiVersion": "2018-11-30",
-      "location": "[resourceGroup().location]"
-    },
-    {
-      "comments": "Grant the Azure Virtual Machine User managed identity with contributor role permissions",
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2020-04-01-preview",
-      "name": "[variables('virtualMachineContributorRoleAssignmentName')]",
-      "dependsOn": [
-        "[variables('virtualMachineUserDefinedManagedIdentityId')]",
-        "[variables('virtualNetworkId')]"
-      ],
-      "properties": {
-        "roleDefinitionId": "[variables('contributorRoleId')]",
-        "description": "Assign the cluster user-defined managed identity contributor role on the resource group.",
-        "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
-        "principalType": "ServicePrincipal",
-        "scope": "[resourceGroup().id]"
-      }
-    },
     {
       "apiVersion": "2020-05-01",
       "type": "Microsoft.Network/publicIPAddresses",
@@ -360,13 +332,13 @@
       "identity": {
         "type": "UserAssigned",
         "userAssignedIdentities": {
-          "[variables('aksClusterUserDefinedManagedIdentityId')]": {}
+          "[variables('userDefinedManagedIdentityId')]": {}
         }
       },
       "dependsOn": [
         "[variables('aksClusterId')]",
         "[variables('virtualMachineNicId')]",
-        "[variables('virtualMachineContributorRoleAssignmentId')]"
+        "[variables('contributorRoleAssignmentId')]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -415,7 +387,7 @@
       "dependsOn": [
         "[variables('netAppVolumeId')]",
         "[variables('virtualMachineId')]",
-        "[variables('virtualMachineContributorRoleAssignmentId')]"
+        "[variables('contributorRoleAssignmentId')]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
@@ -626,25 +598,25 @@
       }
     },
     {
-      "comments": "User-Defined Managed Identity defined for the AKS cluster. Used to access the Virtual Network and other resources.",
+      "comments": "User-Defined Managed Identity defined for the AKS cluster & Virtual Machine. Used to access the Virtual Network and other resources.",
       "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-      "name": "[variables('aksClusterUserDefinedManagedIdentityName')]",
+      "name": "[variables('userDefinedManagedIdentityName')]",
       "apiVersion": "2018-11-30",
       "location": "[resourceGroup().location]"
     },
     {
-      "comments": "Grant the AKS cluster with ingress controller pod managed identity with contributor role permissions",
+      "comments": "Grant the AKS cluster & Virtual Machine with ingress controller pod managed identity with contributor role permissions",
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2020-04-01-preview",
-      "name": "[variables('aksContributorRoleAssignmentName')]",
+      "name": "[variables('contributorRoleAssignmentName')]",
       "dependsOn": [
-        "[variables('aksClusterUserDefinedManagedIdentityId')]",
+        "[variables('userDefinedManagedIdentityId')]",
         "[variables('virtualNetworkId')]"
       ],
       "properties": {
         "roleDefinitionId": "[variables('contributorRoleId')]",
         "description": "Assign the cluster user-defined managed identity contributor role on the resource group.",
-        "principalId": "[reference(variables('aksClusterUserDefinedManagedIdentityName')).principalId]",
+        "principalId": "[reference(variables('userDefinedManagedIdentityName')).principalId]",
         "principalType": "ServicePrincipal",
         "scope": "[resourceGroup().id]"
       }
@@ -657,12 +629,12 @@
       "identity": {
         "type": "UserAssigned",
         "userAssignedIdentities": {
-          "[variables('aksClusterUserDefinedManagedIdentityId')]": {}
+          "[variables('userDefinedManagedIdentityId')]": {}
         }
       },
       "dependsOn": [
         "[variables('virtualNetworkId')]",
-        "[variables('aksContributorRoleAssignmentId')]",
+        "[variables('contributorRoleAssignmentId')]",
         "[variables('netAppVolumeId')]"
       ],
       "properties": {
