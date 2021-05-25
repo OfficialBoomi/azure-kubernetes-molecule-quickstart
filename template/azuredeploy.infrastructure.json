@@ -24,7 +24,7 @@
       }
     },
     "aksSubnetName": {
-      "defaultValue": "k8s-subnet",
+      "defaultValue": "aks-subnet",
       "type": "string",
       "metadata": {
         "description": "Specifies the name of the subnet hosting the system node pool of the AKS cluster."
@@ -82,6 +82,13 @@
       ],
       "metadata": {
         "description": "Target performance for the capacity pool. Service level: Ultra, Premium, or Standard."
+      }
+    },
+    "natGatewayName": {
+      "defaultValue": "[concat(parameters('aksClusterName'), '-nat')]",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the NAT Gateway."
       }
     },
     "aksClusterName": {
@@ -269,6 +276,14 @@
     "virtualMachinePublicIpAddressName": "[concat(parameters('virtualMachineName'),'PublicIp')]",
     "virtualMachinePublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('virtualMachinePublicIpAddressName'))]",
 
+    "natGatewayId": "[resourceId('Microsoft.Network/natGateways', parameters('natGatewayName'))]",
+    
+    "natGatewayPublicIpAddressName": "[concat(parameters('natGatewayName'),'PublicIp')]",
+    "natGatewayPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natGatewayPublicIpAddressName'))]",
+
+    "natGatewayPublicIPPrefixeName": "[concat(parameters('natGatewayName'),'PublicIPPrefixe')]",
+    "natGatewayPublicIPPrefixeId": "[resourceId('Microsoft.Network/publicIPPrefixes', variables('natGatewayPublicIPPrefixeName'))]",
+
     "aksClusterId": "[resourceId('Microsoft.ContainerService/managedClusters', parameters('aksClusterName'))]",
 
     "netAppFileDelegationsName": "[concat(parameters('aksClusterName'), '-netAppDelegation')]",
@@ -285,9 +300,9 @@
   },
   "resources": [
     {
-      "apiVersion": "2020-05-01",
-      "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('virtualMachinePublicIpAddressName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2020-07-01",
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "Standard"
@@ -299,9 +314,36 @@
       }
     },
     {
-      "apiVersion": "2020-04-01",
-      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('natGatewayPublicIpAddressName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2020-07-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 30
+      }
+    },
+    {
+      "name": "[variables('natGatewayPublicIPPrefixeName')]",
+      "type": "Microsoft.Network/publicIPPrefixes",
+      "apiVersion": "2020-07-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "prefixLength": 31,
+        "publicIPAddressVersion": "IPv4"
+      }
+    },
+    {
       "name": "[variables('virtualMachineNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2020-07-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[variables('virtualNetworkId')]",
@@ -325,9 +367,9 @@
       }
     },
     {
-      "apiVersion": "2020-06-01",
-      "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('virtualMachineName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2020-12-01",
       "location": "[resourceGroup().location]",
       "identity": {
         "type": "UserAssigned",
@@ -380,9 +422,9 @@
       }
     },
     {
-      "apiVersion": "2020-06-01",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('virtualMachineName'),'/molecule-deployments')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2020-12-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[variables('netAppVolumeId')]",
@@ -403,9 +445,9 @@
       }
     },
     {
-      "apiVersion": "2020-07-01",
-      "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('virtualmachineSubnetNsgName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2020-07-01",
       "location": "[resourceGroup().location]",
       "properties": {
         "securityRules": [
@@ -478,12 +520,13 @@
       }
     },
     {
+      "name": "[parameters('virtualNetworkName')]",
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2020-07-01",
-      "name": "[parameters('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[variables('virtualMachineSubnetNsgId')]"
+        "[variables('virtualMachineSubnetNsgId')]",
+        "[variables('natGatewayId')]"
       ],
       "properties": {
         "addressSpace": {
@@ -499,6 +542,9 @@
             "name": "[parameters('aksSubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('aksSubnetAddressPrefix')]",
+              "natGateway": {
+                "id": "[variables('natGatewayId')]"
+              },
               "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled"
             }
@@ -545,16 +591,42 @@
       }
     },
     {
-      "type": "Microsoft.NetApp/netAppAccounts",
+      "name": "[parameters('natGatewayname')]",
+      "type": "Microsoft.Network/natGateways",
+      "apiVersion": "2020-07-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "dependsOn": [
+        "[variables('natGatewayPublicIpAddressId')]",
+        "[resourceId('Microsoft.Network/publicIPPrefixes', variables('natGatewayPublicIPPrefixeName'))]"
+      ],
+      "properties": {
+        "idleTimeoutInMinutes": 4,
+        "publicIpAddresses": [
+          {
+            "id": "[variables('natGatewayPublicIpAddressId')]"
+          }
+        ],
+        "publicIpPrefixes": [
+          {
+            "id": "[resourceId('Microsoft.Network/publicIPPrefixes', variables('natGatewayPublicIPPrefixeName'))]"
+          }
+        ]
+      }
+    },
+    {
       "name": "[variables('netAppAccountName')]",
-      "apiVersion": "2020-09-01",
+      "type": "Microsoft.NetApp/netAppAccounts",
+      "apiVersion": "2020-11-01",
       "location": "[resourceGroup().location]",
       "properties": {}
     },
     {
-      "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
-      "apiVersion": "2020-09-01",
       "name": "[variables('capacityPoolName')]",
+      "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
+      "apiVersion": "2020-11-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[variables('netAppAccountId')]"
@@ -565,9 +637,9 @@
       }
     },
     {
-      "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
-      "apiVersion": "2020-09-01",
       "name": "[variables('volumeName')]",
+      "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+      "apiVersion": "2020-11-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[variables('capacityPoolId')]",
@@ -599,16 +671,16 @@
     },
     {
       "comments": "User-Defined Managed Identity defined for the AKS cluster & Virtual Machine. Used to access the Virtual Network and other resources.",
-      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "name": "[variables('userDefinedManagedIdentityName')]",
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
       "apiVersion": "2018-11-30",
       "location": "[resourceGroup().location]"
     },
     {
       "comments": "Grant the AKS cluster & Virtual Machine with ingress controller pod managed identity with contributor role permissions",
+      "name": "[variables('contributorRoleAssignmentName')]",
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2020-04-01-preview",
-      "name": "[variables('contributorRoleAssignmentName')]",
       "dependsOn": [
         "[variables('userDefinedManagedIdentityId')]",
         "[variables('virtualNetworkId')]"
@@ -622,9 +694,9 @@
       }
     },
     {
+      "name": "[parameters('aksClusterName')]",
       "type": "Microsoft.ContainerService/managedClusters",
       "apiVersion": "2021-03-01",
-      "name": "[parameters('aksClusterName')]",
       "location": "[resourceGroup().location]",
       "identity": {
         "type": "UserAssigned",
@@ -693,9 +765,9 @@
       }
     },
     {
+      "name": "[concat(parameters('aksClusterName'), '/userpool1')]",
       "type": "Microsoft.ContainerService/managedClusters/agentPools",
       "apiVersion": "2021-03-01",
-      "name": "[concat(parameters('aksClusterName'), '/userpool1')]",
       "dependsOn": [
         "[variables('aksClusterId')]"
       ],
