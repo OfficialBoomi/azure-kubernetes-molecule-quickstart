@@ -183,8 +183,8 @@ kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boom
 
 helm repo add kedacore https://kedacore.github.io/charts
 helm repo update
-kubectl create namespace keda
-helm install keda kedacore/keda --namespace keda
+kubectl create namespace keda --kubeconfig=/root/.kube/config
+helm install keda kedacore/keda --namespace keda --kubeconfig=/root/.kube/config
 
 sleep 45
 
