@@ -137,6 +137,20 @@
         "description": "Specifies the DNS prefix specified when creating the managed cluster."
       }
     },
+    "aksSystemNodePoolAgentCount": {
+      "defaultValue": 2,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
+      }
+    },
+    "aksUserNodePoolAgentCount": {
+      "defaultValue": 2,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
+      }
+    },
     "aksNodePoolVirtualMachineSize": {
       "defaultValue": "Standard_D4_v3",
       "type": "string",
@@ -263,7 +277,7 @@
     "virtualMachinePublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('virtualMachinePublicIpAddressName'))]",
 
     "natGatewayId": "[resourceId('Microsoft.Network/natGateways', parameters('natGatewayName'))]",
-    
+
     "natGatewayPublicIpAddressName": "[concat(parameters('natGatewayName'),'PublicIp')]",
     "natGatewayPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natGatewayPublicIpAddressName'))]",
 
@@ -706,7 +720,7 @@
         "agentPoolProfiles": [
           {
             "name": "agentpool1",
-            "count": 1,
+            "count": "[parameters('aksSystemNodePoolAgentCount')]",
             "vmSize": "[parameters('aksNodePoolVirtualMachineSize')]",
             "osDiskSizeGB": 100,
             "vnetSubnetID": "[variables('aksSubnetId')]",
@@ -759,7 +773,7 @@
       ],
       "properties": {
         "name": "userpool1",
-        "count": 2,
+        "count": "[parameters('aksUserNodePoolAgentCount')]",
         "vmSize": "[parameters('aksNodePoolVirtualMachineSize')]",
         "osDiskSizeGB": 100,
         "vnetSubnetID": "[variables('aksSubnetId')]",
