@@ -152,10 +152,10 @@
       }
     },
     "aksNodePoolVmSize": {
-      "defaultValue": "Standard_D3_v2",
+      "defaultValue": "Standard_D4_v3",
       "type": "string",
       "metadata": {
-        "description": "The size of the Virtual Machine."
+        "description": "Specifies the vm size of nodes in the system/user node pool."
       }
     },
     "aksClusterPodCidr": {
