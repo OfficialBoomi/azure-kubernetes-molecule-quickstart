@@ -151,7 +151,7 @@
         "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
       }
     },
-    "aksNodePoolVmSize": {
+    "aksNodePoolVirtualMachineSize": {
       "defaultValue": "Standard_D4_v3",
       "type": "string",
       "metadata": {
@@ -721,7 +721,7 @@
           {
             "name": "agentpool1",
             "count": "[parameters('aksSystemNodePoolAgentCount')]",
-            "vmSize": "[parameters('aksNodePoolVmSize')]",
+            "vmSize": "[parameters('aksNodePoolVirtualMachineSize')]",
             "osDiskSizeGB": 100,
             "vnetSubnetID": "[variables('aksSubnetId')]",
             "maxPods": 50,
@@ -774,7 +774,7 @@
       "properties": {
         "name": "userpool1",
         "count": "[parameters('aksUserNodePoolAgentCount')]",
-        "vmSize": "[parameters('aksNodePoolVmSize')]",
+        "vmSize": "[parameters('aksNodePoolVirtualMachineSize')]",
         "osDiskSizeGB": 100,
         "vnetSubnetID": "[variables('aksSubnetId')]",
         "maxPods": 50,
