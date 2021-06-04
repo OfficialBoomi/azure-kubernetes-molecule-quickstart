@@ -138,14 +138,14 @@
       }
     },
     "aksSystemNodePoolAgentCount": {
-      "defaultValue": 1,
+      "defaultValue": 2,
       "type": "int",
       "metadata": {
         "description": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
       }
     },
     "aksUserNodePoolAgentCount": {
-      "defaultValue": 3,
+      "defaultValue": 2,
       "type": "int",
       "metadata": {
         "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
