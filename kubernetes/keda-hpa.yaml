@@ -5,9 +5,9 @@ metadata:
   name: molecule-keda-hpa
 spec:
   scaleTargetRef:
-    apiVersion:    apps/v1
-    kind:          StatefulSet
-    name:          molecule
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: molecule
   pollingInterval: 30
   cooldownPeriod:  300
   minReplicaCount: 3
