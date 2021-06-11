@@ -186,17 +186,17 @@ helm repo update
 kubectl create namespace keda --kubeconfig=/root/.kube/config
 helm install keda kedacore/keda --namespace keda --kubeconfig=/root/.kube/config
 
-sleep 45
+#sleep 45
 
-kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/keda-hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+#kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/keda-hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+#kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 rm /tmp/secrets.yaml
 rm /tmp/persistentvolume.yaml
 rm /tmp/persistentvolumeclam.yaml
 
-sleep 600
+#sleep 600
 
-az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
+#az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
 
