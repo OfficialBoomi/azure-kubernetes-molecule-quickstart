@@ -45,11 +45,11 @@ spec:
                 - /home/boomi/scaledown.sh
         resources:
           limits:
+            cpu: "1000m"
+            memory: "1536Mi"
+          requests:
             cpu: "500m"
             memory: "1024Mi"
-          requests:
-            cpu: "200m"
-            memory: "512Mi"
         volumeMounts:
           - mountPath: "/mnt/boomi"
             name: molecule-storage
