@@ -5,7 +5,6 @@ metadata:
   name: molecule-ingress
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
-    appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
 spec:
   rules:
   - http:
