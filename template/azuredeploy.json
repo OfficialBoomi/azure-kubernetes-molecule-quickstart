@@ -103,7 +103,7 @@
       }
     },
     "aksNodePoolVirtualMachineSize": {
-      "defaultValue": "Standard_D2_v4",
+      "defaultValue": "Standard_D4_v4",
       "type": "string",
       "metadata": {
         "description": "Specifies the vm size of nodes in the system/user node pool."
