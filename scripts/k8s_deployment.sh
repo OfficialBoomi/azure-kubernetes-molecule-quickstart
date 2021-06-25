@@ -160,7 +160,7 @@ spec:
       storage: 100Gi
 EOF
 
-kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/v1.6.0/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/v1.8.0/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
 
