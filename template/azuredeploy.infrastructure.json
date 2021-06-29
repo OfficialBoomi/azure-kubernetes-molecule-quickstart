@@ -696,7 +696,7 @@
     {
       "name": "[parameters('aksClusterName')]",
       "type": "Microsoft.ContainerService/managedClusters",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-05-01",
       "location": "[resourceGroup().location]",
       "identity": {
         "type": "UserAssigned",
@@ -767,7 +767,7 @@
     {
       "name": "[concat(parameters('aksClusterName'), '/userpool1')]",
       "type": "Microsoft.ContainerService/managedClusters/agentPools",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-05-01",
       "dependsOn": [
         "[variables('aksClusterId')]"
       ],
