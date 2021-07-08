@@ -200,6 +200,6 @@ kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boom
 
 rm /tmp/secrets.yaml
 
-sleep 300
+#sleep 300
 
-az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
+#az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
