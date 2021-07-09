@@ -162,10 +162,6 @@ EOF
 
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
-#helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
-#helm repo update
-#helm install aad-pod-identity aad-pod-identity/aad-pod-identity --kubeconfig=/root/.kube/config
-
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/secrets.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
@@ -185,19 +181,10 @@ kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boom
 
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-#helm repo add kedacore https://kedacore.github.io/charts
-#helm repo update
-#kubectl create namespace keda --kubeconfig=/root/.kube/config
-#helm install keda kedacore/keda --namespace keda --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/keda-hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-#sleep 45
-
-#kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/keda-hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+sleep 120
 
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 rm /tmp/secrets.yaml
-
-#sleep 600
-
-#az network application-gateway probe update --name pb-aks-boomi-molecule-molecule-service-9090-molecule-ingress --path '/_admin/status' --gateway-name applicationgateway --resource-group "$node_resource_group"
