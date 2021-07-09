@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
+  "contentVersion": "1.0.0.1",
   "parameters": {
     "virtualNetworkAddressPrefixes": {
       "defaultValue": "10.0.0.0/20",
@@ -184,7 +184,7 @@
         "description": "Specifies the taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. - string"
       }
     },
-    "nodePoolAvailabilityZones": {
+    "aksNodePoolAvailabilityZones": {
       "defaultValue": [],
       "type": "array",
       "metadata": {
@@ -985,7 +985,7 @@
             "enableAutoScaling": true,
             "mode": "System",
             "type": "VirtualMachineScaleSets",
-            "availabilityZones": "[parameters('nodePoolAvailabilityZones')]",
+            "availabilityZones": "[parameters('aksNodePoolAvailabilityZones')]",
             "nodeLabels": "[parameters('systemNodePoolNodeLabels')]",
             "nodeTaints": "[parameters('systemNodePoolNodeTaints')]"
           }
@@ -1059,7 +1059,7 @@
         "enableAutoScaling": true,
         "mode": "User",
         "type": "VirtualMachineScaleSets",
-        "availabilityZones": "[parameters('nodePoolAvailabilityZones')]",
+        "availabilityZones": "[parameters('aksNodePoolAvailabilityZones')]",
         "nodeLabels": "[parameters('userNodePoolNodeLabels')]",
         "nodeTaints": "[parameters('userNodePoolNodeTaints')]"
       }
