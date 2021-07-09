@@ -9,10 +9,6 @@ do
       resource_group="$1"
       shift
       ;;
-    --ssl_cert_name|-scn)
-      ssl_cert_name="$1"
-      shift
-      ;;
     --aks_name|-an)
       aks_name="$1"
       shift
