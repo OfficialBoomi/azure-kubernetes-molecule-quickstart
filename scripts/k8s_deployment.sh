@@ -9,8 +9,8 @@ do
       resource_group="$1"
       shift
       ;;
-    --node_resource_group|-nrg)
-      node_resource_group="$1"
+    --ssl_cert_name|-scn)
+      ssl_cert_name="$1"
       shift
       ;;
     --aks_name|-an)
@@ -180,8 +180,6 @@ fi
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
-
-kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/keda-hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 #sleep 120
 
