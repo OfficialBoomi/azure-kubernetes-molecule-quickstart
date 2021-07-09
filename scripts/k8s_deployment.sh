@@ -21,6 +21,10 @@ do
       boomi_token="$1"
       shift
       ;;
+    --appgw_ssl_cert)
+      appgw_ssl_cert="$1"
+      shift
+      ;;
     --boomi_username)
       boomi_username="$1"
       shift
@@ -156,6 +160,29 @@ spec:
       storage: 100Gi
 EOF
 
+cat >/tmp/ingress.yaml <<EOF
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: molecule-ingress
+  annotations:
+    kubernetes.io/ingress.class: "azure/application-gateway"
+    appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: molecule-service
+            port:
+              number: 9090
+EOF
+
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
@@ -179,6 +206,8 @@ kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boom
 
 sleep 120
 
-kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+#kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+
+kubectl apply -f /tmp/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 rm /tmp/secrets.yaml
