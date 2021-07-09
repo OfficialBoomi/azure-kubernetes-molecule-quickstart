@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
+  "contentVersion": "1.0.0.1",
   "parameters": {
     "deploymentCondition": {
       "type": "string",
@@ -9,38 +9,147 @@
       }
     },
     "virtualNetworkAddressPrefixes": {
-      "defaultValue": "10.0.0.0/8",
+      "defaultValue": "10.0.0.0/20",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefixes of the virtual network."
       }
     },
     "aksSubnetAddressPrefix": {
-      "defaultValue": "10.0.0.0/16",
+      "defaultValue": "10.0.0.0/23",
       "type": "string",
       "metadata": {
         "description": "Specifies the address prefix of the subnet hosting the system node pool of the AKS cluster."
       }
     },
     "applicationGatewaySubnetAddressPrefix": {
-      "defaultValue": "10.1.0.0/20",
       "type": "string",
+      "defaultValue": "10.0.2.0/25",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the Application Gateway."
       }
     },
     "virtualMachineSubnetAddressPrefix": {
-      "defaultValue": "10.16.0.0/20",
       "type": "string",
+      "defaultValue": "10.0.2.128/25",
       "metadata": {
         "description": "Specifies the address prefix of the subnet which contains the virtual machine."
       }
     },
     "netAppFileSubnetAddressPrefix": {
-      "defaultValue": "10.2.0.0/20",
+      "type": "string",
+      "defaultValue": "10.0.3.0/25",
+      "metadata": {
+        "description": "Specifies the NetApp File subnet IP prefix. This prefix must be within vnet IP prefix address space."
+      }
+    },
+    "aksClusterKubernetesVersion": {
+      "type": "string",
+      "defaultValue": "1.20.5",
+      "metadata": {
+        "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
+      }
+    },
+    "aksClusterEnablePrivateCluster": {
+      "defaultValue": false,
+      "type": "bool",
+      "metadata": {
+        "description": "Specifies whether to create the cluster as a private cluster or not."
+      }
+    },
+    "aksClusterSkuTier": {
+      "type": "string",
+      "defaultValue": "Paid",
+      "allowedValues": [
+        "Paid",
+        "Free"
+      ],
+      "metadata": {
+        "description": "Specifies the tier of a managed cluster SKU: Paid or Free"
+      }
+    },
+    "systemNodePoolVirtualMachineSize": {
+      "defaultValue": "Standard_DS5_v2",
       "type": "string",
       "metadata": {
-        "description": "Specifies the address prefix of the subnet which contains the NetApp File System"
+        "description": "Specifies the vm size of nodes in the system node pool."
+      }
+    },
+    "userNodePoolVirtualMachineSize": {
+      "defaultValue": "Standard_DS5_v2",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the vm size of nodes in the user node pool."
+      }
+    },
+    "aksClusterPodCidr": {
+      "defaultValue": "10.0.15.0/24",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
+      }
+    },
+    "aksClusterServiceCidr": {
+      "defaultValue": "10.0.4.0/24",
+      "type": "string",
+      "metadata": {
+        "description": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges."
+      }
+    },
+    "aksClusterDnsServiceIP": {
+      "defaultValue": "10.0.4.10",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
+      }
+    },
+    "aksClusterDockerBridgeCidr": {
+      "defaultValue": "172.17.0.1/16",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range."
+      }
+    },
+    "aksNodePoolAvailabilityZones": {
+      "defaultValue": [],
+      "type": "array",
+      "metadata": {
+        "description": "Specifies the availability zones for the agent nodes in the system node pool. Requirese the use of VirtualMachineScaleSets as node pool type."
+      }
+    },
+    "systemNodePoolAgentCount": {
+      "defaultValue": 1,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
+      }
+    },
+    "userNodePoolAgentCount": {
+      "defaultValue": 2,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
+      }
+    },
+    "userNodePoolMinCount": {
+      "defaultValue": 1,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the minimum number of nodes for auto-scaling for the user node pool."
+      }
+    },
+    "userNodePoolMaxCount": {
+      "defaultValue": 100,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the maximum number of nodes for auto-scaling for the user node pool."
+      }
+    },
+    "userNodePoolMaxPods": {
+      "defaultValue": 30,
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
       }
     },
     "netAppServiceLevel": {
@@ -55,104 +164,16 @@
         "description": "Target performance for the capacity pool. Service level: Ultra, Premium, or Standard."
       }
     },
-    "aksClusterKubernetesVersion": {
-      "defaultValue": "1.19.7",
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
-      }
-    },
-    "aksClusterAvailabilityZones": {
-      "defaultValue": [],
-      "type": "array",
-      "metadata": {
-        "description": "Specifies the availability zones for the agent nodes in the system/user node pool. Requirese the use of VirtualMachineScaleSets as node pool type."
-      }
-    },
-    "aksClusterEnablePrivateCluster": {
-      "defaultValue": false,
-      "type": "bool",
-      "metadata": {
-        "description": "Specifies whether to create the cluster as a private cluster or not."
-      }
-    },
-    "aksClusterSkuTier": {
-      "defaultValue": "Paid",
-      "type": "string",
-      "allowedValues": [
-        "Paid",
-        "Free"
-      ],
-      "metadata": {
-        "description": "Specifies the tier of a managed cluster SKU: Paid or Free"
-      }
-    },
-    "aksClusterDnsPrefix": {
-      "defaultValue": "aks",
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the DNS prefix specified when creating the managed cluster."
-      }
-    },
-    "aksSystemNodePoolAgentCount": {
-      "defaultValue": 2,
-      "type": "int",
-      "metadata": {
-        "description": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
-      }
-    },
-    "aksUserNodePoolAgentCount": {
-      "defaultValue": 2,
-      "type": "int",
-      "metadata": {
-        "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
-      }
-    },
-    "aksNodePoolVirtualMachineSize": {
-      "defaultValue": "Standard_D4_v3",
-      "type": "string",
-      "metadata": {
-        "description": "The size of the Virtual Machine."
-      }
-    },
-    "aksClusterPodCidr": {
-      "defaultValue": "10.244.0.0/16",
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
-      }
-    },
-    "aksClusterServiceCidr": {
-      "defaultValue": "10.3.0.0/16",
-      "type": "string",
-      "metadata": {
-        "description": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges."
-      }
-    },
-    "aksClusterDnsServiceIP": {
-      "defaultValue": "10.3.0.10",
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
-      }
-    },
-    "aksClusterDockerBridgeCidr": {
-      "defaultValue": "172.17.0.1/16",
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range."
-      }
-    },
     "virtualMachineSize": {
-      "defaultValue": "Standard_DS1_v2",
       "type": "string",
+      "defaultValue": "Standard_DS3_v2",
       "metadata": {
-        "description": "Virtual machine size (has to be at least the size of Standard_A3 to support 2 NICs)"
+        "description": "Specifies the size of the virtual machine."
       }
     },
     "virtualMachineAdminUsername": {
-      "defaultValue": "boomi",
       "type": "string",
+      "defaultValue": "boomi",
       "metadata": {
         "description": "Specifies the name of the administrator account of the virtual machine."
       }
@@ -199,6 +220,9 @@
       "metadata": {
         "description": "The password associated with the Boomi account."
       }
+    },
+    "sslCertificateSecretData": {
+      "type": "securestring"
     }
   },
   "variables": {},
@@ -218,14 +242,14 @@
           "virtualNetworkAddressPrefixes": {
             "value": "[parameters('virtualNetworkAddressPrefixes')]"
           },
-          "virtualMachineSubnetAddressPrefix": {
-            "value": "[parameters('virtualMachineSubnetAddressPrefix')]"
-          },
           "aksSubnetAddressPrefix": {
             "value": "[parameters('aksSubnetAddressPrefix')]"
           },
           "applicationGatewaySubnetAddressPrefix": {
             "value": "[parameters('applicationGatewaySubnetAddressPrefix')]"
+          },
+          "virtualMachineSubnetAddressPrefix": {
+            "value": "[parameters('virtualMachineSubnetAddressPrefix')]"
           },
           "netAppFileSubnetAddressPrefix": {
             "value": "[parameters('netAppFileSubnetAddressPrefix')]"
@@ -236,8 +260,8 @@
           "aksClusterKubernetesVersion": {
             "value": "[parameters('aksClusterKubernetesVersion')]"
           },
-          "aksClusterAvailabilityZones": {
-            "value": "[parameters('aksClusterAvailabilityZones')]"
+          "aksNodePoolAvailabilityZones": {
+            "value": "[parameters('aksNodePoolAvailabilityZones')]"
           },
           "aksClusterEnablePrivateCluster": {
             "value": "[parameters('aksClusterEnablePrivateCluster')]"
@@ -245,17 +269,26 @@
           "aksClusterSkuTier": {
             "value": "[parameters('aksClusterSkuTier')]"
           },
-          "aksClusterDnsPrefix": {
-            "value": "[parameters('aksClusterDnsPrefix')]"
+          "systemNodePoolAgentCount": {
+            "value": "[parameters('systemNodePoolAgentCount')]"
           },
-          "aksSystemNodePoolAgentCount": {
-            "value": "[parameters('aksSystemNodePoolAgentCount')]"
+          "userNodePoolAgentCount": {
+            "value": "[parameters('userNodePoolAgentCount')]"
           },
-          "aksUserNodePoolAgentCount": {
-            "value": "[parameters('aksUserNodePoolAgentCount')]"
+          "userNodePoolVirtualMachineSize": {
+            "value": "[parameters('userNodePoolVirtualMachineSize')]"
           },
-          "aksNodePoolVirtualMachineSize": {
-            "value": "[parameters('aksNodePoolVirtualMachineSize')]"
+          "userNodePoolMaxPods": {
+            "value": "[parameters('userNodePoolMaxPods')]"
+          },
+          "userNodePoolMaxCount": {
+            "value": "[parameters('userNodePoolMaxCount')]"
+          },
+          "userNodePoolMinCount": {
+            "value": "[parameters('userNodePoolMinCount')]"
+          },
+          "systemNodePoolVirtualMachineSize": {
+            "value": "[parameters('systemNodePoolVirtualMachineSize')]"
           },
           "aksClusterPodCidr": {
             "value": "[parameters('aksClusterPodCidr')]"
@@ -288,10 +321,13 @@
             "value": "[parameters('MoleculeUsername')]"
           },
           "BoomiMFAInstallToken": {
-            "value": "[parameters('BoomiMFAInstallToken')]"
+            "value": "[reference('BoomiLicenseValidation').outputs.installationToken.value]"
           },
           "MoleculePassword": {
             "value": "[parameters('MoleculePassword')]"
+          },
+          "sslCertificateSecretData": {
+            "value": "[parameters('sslCertificateSecretData')]"
           }
         }
       }
@@ -301,6 +337,14 @@
     "virtualMachinePublicIpAddress": {
       "type": "string",
       "value": "[reference('BoomiAKSQuickStart').outputs.virtualMachinePublicIpAddress.value]"
+    },
+    "applicationGatewayPublicIpAddress": {
+      "type": "string",
+      "value": "[reference('BoomiAKSQuickStart').outputs.applicationGatewayPublicIpAddress.value]"
+    },
+    "netAppFileVolumeIPAddress": {
+      "type": "string",
+      "value": "[reference('BoomiAKSQuickStart').outputs.netAppFileVolumeIPAddress.value]"
     }
   }
 }
