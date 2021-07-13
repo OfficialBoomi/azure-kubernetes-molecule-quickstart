@@ -63,14 +63,14 @@
       }
     },
     "systemNodePoolVirtualMachineSize": {
-      "defaultValue": "Standard_DS5_v2",
+      "defaultValue": "Standard_DS3_v2",
       "type": "string",
       "metadata": {
         "description": "Specifies the vm size of nodes in the system node pool."
       }
     },
     "userNodePoolVirtualMachineSize": {
-      "defaultValue": "Standard_DS5_v2",
+      "defaultValue": "Standard_DS3_v2",
       "type": "string",
       "metadata": {
         "description": "Specifies the vm size of nodes in the user node pool."
@@ -160,7 +160,7 @@
     },
     "virtualMachineSize": {
       "type": "string",
-      "defaultValue": "Standard_DS3_v2",
+      "defaultValue": "Standard_DS1_v2",
       "metadata": {
         "description": "Specifies the size of the virtual machine."
       }
