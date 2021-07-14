@@ -149,25 +149,25 @@
         "description": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
       }
     },
-    "systemNodePoolMaxPods": {
-      "defaultValue": 30,
+    "systemNodePoolMinCount": {
+      "defaultValue": 1,
       "type": "int",
       "metadata": {
-        "description": "Specifies the maximum number of pods that can run on a node in the system node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
+        "description": "Specifies the minimum number of nodes for auto-scaling for the system node pool."
       }
     },
     "systemNodePoolMaxCount": {
-      "defaultValue": 5,
+      "defaultValue": 50,
       "type": "int",
       "metadata": {
         "description": "Specifies the maximum number of nodes for auto-scaling for the system node pool."
       }
     },
-    "systemNodePoolMinCount": {
-      "defaultValue": 3,
+    "systemNodePoolMaxPods": {
+      "defaultValue": 30,
       "type": "int",
       "metadata": {
-        "description": "Specifies the minimum number of nodes for auto-scaling for the system node pool."
+        "description": "Specifies the maximum number of pods that can run on a node in the system node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
       }
     },
     "systemNodePoolNodeLabels": {
@@ -192,31 +192,31 @@
       }
     },
     "userNodePoolAgentCount": {
-      "defaultValue": 2,
+      "defaultValue": 1,
       "type": "int",
       "metadata": {
         "description": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1."
       }
     },
-    "userNodePoolMaxPods": {
-      "defaultValue": 30,
+    "userNodePoolMinCount": {
+      "defaultValue": 1,
       "type": "int",
       "metadata": {
-        "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
+        "description": "Specifies the minimum number of nodes for auto-scaling for the user node pool."
       }
     },
     "userNodePoolMaxCount": {
-      "defaultValue": 5,
+      "defaultValue": 200,
       "type": "int",
       "metadata": {
         "description": "Specifies the maximum number of nodes for auto-scaling for the user node pool."
       }
     },
-    "userNodePoolMinCount": {
-      "defaultValue": 3,
+    "userNodePoolMaxPods": {
+      "defaultValue": 15,
       "type": "int",
       "metadata": {
-        "description": "Specifies the minimum number of nodes for auto-scaling for the user node pool."
+        "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
       }
     },
     "userNodePoolNodeLabels": {
@@ -394,15 +394,20 @@
     "applicationGatewayIPConfigurationName": "applicationGatewayIPConfiguration",
     "applicationGatewayFrontendIPConfigurationName": "applicationGatewayFrontendIPConfiguration",
     "applicationGatewayFrontendIPConfigurationId": "[resourceId('Microsoft.Network/applicationGateways/frontendIPConfigurations', variables('applicationGatewayName'), variables('applicationGatewayFrontendIPConfigurationName'))]",
-    "applicationGatewayFrontendPortName": "applicationGatewayFrontendPort",
-    "applicationGatewayFrontendPortId": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts', variables('applicationGatewayName'), variables('applicationGatewayFrontendPortName'))]",
+    "applicationGatewayHttpFrontendPortName": "applicationGatewayHttpFrontendPort",
+    "applicationGatewayHttpFrontendPortId": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts', variables('applicationGatewayName'), variables('applicationGatewayHttpFrontendPortName'))]",
+    "applicationGatewayHttpsFrontendPortName": "applicationGatewayHttpsFrontendPort",
+    "applicationGatewayHttpsFrontendPortId": "[resourceId('Microsoft.Network/applicationGateways/frontendPorts', variables('applicationGatewayName'), variables('applicationGatewayHttpsFrontendPortName'))]",
     "applicationGatewayHttpListenerName": "applicationGatewayHttpListener",
     "applicationGatewayHttpListenerId": "[resourceId('Microsoft.Network/applicationGateways/httpListeners', variables('applicationGatewayName'), variables('applicationGatewayHttpListenerName'))]",
+    "applicationGatewayHttpsListenerName": "applicationGatewayHttpsListener",
+    "applicationGatewayHttpsListenerId": "[resourceId('Microsoft.Network/applicationGateways/httpListeners', variables('applicationGatewayName'), variables('applicationGatewayHttpsListenerName'))]",
     "applicationGatewayBackendAddressPoolName": "applicationGatewayBackendPool",
     "applicationGatewayBackendAddressPoolId": "[resourceId('Microsoft.Network/applicationGateways/backendAddressPools', variables('applicationGatewayName'), variables('applicationGatewayBackendAddressPoolName'))]",
     "applicationGatewayBackendHttpSettingsName": "applicationGatewayBackendHttpSettings",
     "applicationGatewayBackendHttpSettingsId": "[resourceId('Microsoft.Network/applicationGateways/backendHttpSettingsCollection', variables('applicationGatewayName'), variables('applicationGatewayBackendHttpSettingsName'))]",
-    "applicationGatewayRequestRoutingRuleName": "default",
+    "applicationGatewayHttpRequestRoutingRuleName": "httpRule",
+    "applicationGatewayHttpsRequestRoutingRuleName": "httpsRule",
 
     "aksClusterName": "[concat(variables('deploymentName'), '-askCluster')]",
     "aksClusterId": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
@@ -854,7 +859,13 @@
         ],
         "frontendPorts": [
           {
-            "name": "[variables('applicationGatewayFrontendPortName')]",
+            "name": "[variables('applicationGatewayHttpFrontendPortName')]",
+            "properties": {
+              "Port": 80
+            }
+          },
+          {
+            "name": "[variables('applicationGatewayHttpsFrontendPortName')]",
             "properties": {
               "Port": 443
             }
@@ -917,7 +928,19 @@
                 "id": "[variables('applicationGatewayFrontendIPConfigurationId')]"
               },
               "FrontendPort": {
-                "id": "[variables('applicationGatewayFrontendPortId')]"
+                "id": "[variables('applicationGatewayHttpFrontendPortId')]"
+              },
+              "Protocol": "Http"
+            }
+          },
+          {
+            "name": "[variables('applicationGatewayHttpsListenerName')]",
+            "properties": {
+              "FrontendIPConfiguration": {
+                "id": "[variables('applicationGatewayFrontendIPConfigurationId')]"
+              },
+              "FrontendPort": {
+                "id": "[variables('applicationGatewayHttpsFrontendPortId')]"
               },
               "Protocol": "Https",
               "sslCertificate": {
@@ -928,11 +951,26 @@
         ],
         "requestRoutingRules": [
           {
-            "Name": "[variables('applicationGatewayRequestRoutingRuleName')]",
+            "Name": "[variables('applicationGatewayHttpRequestRoutingRuleName')]",
             "properties": {
               "RuleType": "Basic",
               "httpListener": {
                 "id": "[variables('applicationGatewayHttpListenerId')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('applicationGatewayBackendAddressPoolId')]"
+              },
+              "backendHttpSettings": {
+                "id": "[variables('applicationGatewayBackendHttpSettingsId')]"
+              }
+            }
+          },
+          {
+            "Name": "[variables('applicationGatewayHttpsRequestRoutingRuleName')]",
+            "properties": {
+              "RuleType": "Basic",
+              "httpListener": {
+                "id": "[variables('applicationGatewayHttpsListenerId')]"
               },
               "backendAddressPool": {
                 "id": "[variables('applicationGatewayBackendAddressPoolId')]"
