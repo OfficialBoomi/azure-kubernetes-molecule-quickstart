@@ -1,5 +1,7 @@
 # Boomi AKS Quickstart with ARM Template
 
+## Note: Kindly purge the Azure KeyVault post destroy the Quickstart Infrastructure.
+
 ## Step 1: Enable AKS Preview
 
 `az extension add --name aks-preview`
