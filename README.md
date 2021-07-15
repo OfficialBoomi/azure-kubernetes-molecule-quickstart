@@ -37,4 +37,5 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template
 10. Virtual Machines - 1
 
 **AKS Default Node Size:** Standard_DS3_v2
+
 **Azure VM Default Size:** Standard_DS1_v2
