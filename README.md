@@ -38,11 +38,11 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template
 
 | Environment   | AKS VM Size      | vCPU | Memory: GiB   | No. of System Node   | No. of user Node   |
 | ------------- | ---------------- | ---- | ------------- | -------------------- | ------------------ |
-| Development   | Standard_D4_v3   | 4    | 16            | 2                    | 2                  |
+| Development   | Standard_D4_v3   | 4    | 16            | 1                    | 1                  |
 | Development   | Standard_D4_v4   | 4    | 16            | 2                    | 2                  |
-| Test          | Standard_D8_v3   | 8    | 32            | 2                    | 2                  |
-| Test          | Standard_D8_v4   | 8    | 32            | 2                    | 2                  |
+| Dev Test      | Standard_D4_v4   | 4    | 16            | 2                    | 2                  |
+| Prod Test     | Standard_D16_v3  | 16   | 64            | 2                    | 3                  |
 | **Production**    | Standard_D16_v3  | 16   | 64            | 2                    | 3                  |
 | **Production**    | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
-| **Production**    | Standard_D32_v3  | 32   | 128           | 2                    | 3                  |
-| **Production**    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
+| **High Throughput Production**    | Standard_D32_v3  | 32   | 128           | 2                    | 3                  |
+| **High Throughput Production**    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
