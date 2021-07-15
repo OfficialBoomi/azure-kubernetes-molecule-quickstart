@@ -11,16 +11,16 @@
     "BoomiAuthenticationType": {
       "value": "token"
     },
-    "MoleculeAccountID": {
+    "BoomiAccountID": {
       "value": ""
     },
-    "MoleculeUsername": {
+    "BoomiUsername": {
       "value": ""
     },
     "BoomiMFAAPIToken": {
       "value": ""
     },
-    "MoleculePassword": {
+    "BoomiPassword": {
       "value": ""
     }
   }
