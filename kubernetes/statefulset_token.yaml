@@ -60,7 +60,7 @@ spec:
           - name: cgroup
             mountPath: /sys/fs/cgroup
         startupProbe:
-          failureThreshold: 60
+          failureThreshold: 90
           exec:
             command:
               - sh
