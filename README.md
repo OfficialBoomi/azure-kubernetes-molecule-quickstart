@@ -36,6 +36,13 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template
 9. Network Interfaces - 1
 10. Virtual Machines - 1
 
-**AKS Default Node Size:** Standard_DS3_v2
-
-**Azure VM Default Size:** Standard_DS1_v2
+| Environment   | AKS VM Size      | vCPU | Memory: GiB   |
+| ------------- | ---------------- | ---- | ------------- |
+| Development   | Standard_D4_v3   | 4    | 16            |
+| Development   | Standard_D4_v4   | 4    | 16            |
+| Testing       | Standard_D8_v3   | 8    | 32            |
+| Testing       | Standard_D8_v4   | 8    | 32            |
+| Production    | Standard_D16_v3  | 16   | 64            |
+| Production    | Standard_D16_v4  | 16   | 64            |
+| Production    | Standard_D32_v3  | 32   | 128           |
+| Production    | Standard_D32_v4  | 32   | 128           |
