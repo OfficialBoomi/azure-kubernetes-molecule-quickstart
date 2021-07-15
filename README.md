@@ -4,7 +4,11 @@
 
 ## Step 1: Enable AKS Preview
 
-`az extension add --name aks-preview`
+### Install the extension
+`az extension add -n aks-preview`
+
+### Update the extension to ensure the latest version is installed
+`az extension update -n aks-preview`
 
 ## Step 2: Register the AKS-IngressApplicationGatewayAddon feature
 
