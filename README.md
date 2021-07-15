@@ -42,7 +42,7 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template
 | Development   | Standard_D4_v4   | 4    | 16            | 2                    | 2                  |
 | Test          | Standard_D8_v3   | 8    | 32            | 2                    | 2                  |
 | Test          | Standard_D8_v4   | 8    | 32            | 2                    | 2                  |
-| Production    | Standard_D16_v3  | 16   | 64            | 2                    | 3                  |
-| Production    | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
-| Production    | Standard_D32_v3  | 32   | 128           | 2                    | 3                  |
-| Production    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
+| **Production**    | Standard_D16_v3  | 16   | 64            | 2                    | 3                  |
+| **Production**    | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
+| **Production**    | Standard_D32_v3  | 32   | 128           | 2                    | 3                  |
+| **Production**    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
