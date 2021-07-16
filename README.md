@@ -40,6 +40,8 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template
 9. Network Interfaces - 1
 10. Virtual Machines - 1
 
+AKS Cluster Recommendation
+
 | Environment   | AKS VM Size      | vCPU | Memory: GiB   | No. of System Node   | No. of user Node   |
 | ------------- | ---------------- | ---- | ------------- | -------------------- | ------------------ |
 | Development   | Standard_D4_v4   | 4    | 16            | 1                    | 1                  |
