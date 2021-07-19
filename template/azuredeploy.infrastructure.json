@@ -347,6 +347,15 @@
 
     "applicationGatewayContributorRoleAssignmentName": "[guid(concat(variables('deploymentName'), '-applicationGatewayContributorRoleAssignment'))]",
 
+    "natGatewayPublicIpAddressName": "[concat(variables('deploymentName'), '-natGatewayPublicIp')]",
+    "natGatewayPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natGatewayPublicIpAddressName'))]",
+
+    "natGatewayPublicIpPrefixName": "[concat(variables('deploymentName'), '-natGatewayPublicIpPrefix')]",
+    "natGatewayPublicIpPrefixId": "[resourceId('Microsoft.Network/publicIPPrefixes', variables('natGatewayPublicIpPrefixName'))]",
+
+    "natGatewayname": "[concat(variables('deploymentName'), '-natGateway')]",
+    "natGatewayId": "[resourceId('Microsoft.Network/natGateways', variables('natGatewayname'))]",
+
     "virtualNetworkName": "[concat(variables('deploymentName'), '-virtualnetwork')]",
     "virtualNetworkId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
 
@@ -532,6 +541,59 @@
       }
     },
     {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2020-07-01",
+      "name": "[variables('natGatewayPublicIpAddressName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 30
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPPrefixes",
+      "apiVersion": "2020-07-01",
+      "name": "[variables('natGatewayPublicIpPrefixName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "prefixLength": 31,
+        "publicIPAddressVersion": "IPv4"
+      }
+    },
+    {
+      "type": "Microsoft.Network/natGateways",
+      "apiVersion": "2020-07-01",
+      "name": "[variables('natGatewayname')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "dependsOn": [
+        "[variables('natGatewayPublicIpAddressId')]",
+        "[variables('natGatewayPublicIpPrefixId')]"
+      ],
+      "properties": {
+        "idleTimeoutInMinutes": 4,
+        "publicIpAddresses": [
+          {
+            "id": "[variables('natGatewayPublicIpAddressId')]"
+          }
+        ],
+        "publicIpPrefixes": [
+          {
+            "id": "[variables('natGatewayPublicIpPrefixId')]"
+          }
+        ]
+      }
+    },
+    {
       "apiVersion": "2020-07-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('virtualMachineSubnetNsgName')]",
@@ -560,7 +622,8 @@
       "name": "[variables('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[variables('virtualMachineSubnetNsgId')]"
+        "[variables('virtualMachineSubnetNsgId')]",
+        "[variables('natGatewayId')]"
       ],
       "properties": {
         "addressSpace": {
@@ -576,6 +639,9 @@
             "name": "[variables('aksSubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('aksSubnetAddressPrefix')]",
+              "natGateway": {
+                "id": "[variables('natGatewayId')]"
+              },
               "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled"
             }
