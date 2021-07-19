@@ -20,8 +20,8 @@ def _verify_boomi_licensing(username, password, account):
     json_resp = resp.json()
 
     account_status = json_resp["status"]
-    enterprise_licenses_purchased = json_resp["licensing"]["enterprise"]["purchased"]
-    enterprise_licenses_used = json_resp["licensing"]["enterprise"]["used"]
+    molecule_licenses_purchased = json_resp["molecule"]["purchased"]
+    molecule_licenses_used = json_resp["molecule"]["used"]
 
     # Is the account active?
     if account_status == "active":
@@ -31,14 +31,14 @@ def _verify_boomi_licensing(username, password, account):
         raise Exception(f"Boomi account {account} is inactive.")
 
     # Do we have license entitlements at all?
-    if enterprise_licenses_purchased > enterprise_licenses_used:
+    if molecule_licenses_purchased > molecule_licenses_used:
         logger.info(
-            f"Licenses are available - Purchased: {enterprise_licenses_purchased} / Used: {enterprise_licenses_used}"
+            f"Licenses are available - Purchased: {molecule_licenses_purchased} / Used: {molecule_licenses_used}"
         )
     else:
         logger.error("Exception: No enterprise license available")
         raise Exception(
-            f"No enterprise licenses for account {account} are available. Purchased: {enterprise_licenses_purchased}, Used: {enterprise_licenses_used}"
+            f"No Molecule licenses for account {account} are available. Purchased: {molecule_licenses_purchased}, Used: {molecule_licenses_used}"
         )
 
 
