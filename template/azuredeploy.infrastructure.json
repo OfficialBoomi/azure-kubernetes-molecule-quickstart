@@ -320,7 +320,12 @@
     "readerRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('readerRoleDefinitionName'))]",
     "contributorRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('contributorRoleDefinitionName'))]",
 
-    "deploymentName": "[concat(resourceGroup().name, '-', uniqueString(resourceGroup().id))]",
+    "removeChar1": "[replace(resourceGroup().name, '_', '')]",
+    "removeChar2": "[replace(variables('removeChar1'), '.', '')]",
+    "removeChar3": "[replace(variables('removeChar2'), '(', '')]",
+    "cleanResourceGroupName": "[replace(tolower(variables('removeChar3')), ')', '')]",
+
+    "deploymentName": "[concat(variables('cleanResourceGroupName'), '-', uniqueString(resourceGroup().id))]",
 
     "aksClusterUserDefinedManagedIdentityName": "[concat(variables('deploymentName'), '-askManagedIdentity')]",
     "aksClusterUserDefinedManagedIdentityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('aksClusterUserDefinedManagedIdentityName'))]",
@@ -380,7 +385,7 @@
     "netAppVolumeName": "[concat(tolower(variables('netAppAccountName')), 'volume')]",
     "netAppVolumeId": "[resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes', variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))]",
 
-    "keyVaultName": "[take(concat(resourceGroup().name, '-keyVault'), 24)]",
+    "keyVaultName": "[take(concat(variables('cleanResourceGroupName'), '-keyVault'), 24)]",
     "keyVaultId": "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]",
 
     "applicationGatewayPublicIPAddressName": "[concat(variables('deploymentName'), '-applicationGatewayPublicIp')]",
