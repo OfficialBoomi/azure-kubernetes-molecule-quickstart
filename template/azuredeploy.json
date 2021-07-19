@@ -91,7 +91,7 @@
       }
     },
     "aksClusterDnsServiceIP": {
-      "defaultValue": "10.0.25.10",
+      "defaultValue": "10.0.24.10",
       "type": "string",
       "metadata": {
         "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
