@@ -39,7 +39,7 @@
     },
     "aksClusterKubernetesVersion": {
       "type": "string",
-      "defaultValue": "1.20.5",
+      "defaultValue": "1.20.7",
       "metadata": {
         "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
       }
