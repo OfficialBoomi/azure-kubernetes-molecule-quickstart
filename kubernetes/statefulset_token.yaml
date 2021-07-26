@@ -27,7 +27,7 @@ spec:
             path: /sys/fs/cgroup
             type: Directory
       containers:
-      - image: vilvamani007/test:latest
+      - image: boomi/molecule:release
         imagePullPolicy: Always
         name: atom-node
         ports:
