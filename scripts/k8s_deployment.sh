@@ -132,7 +132,7 @@ kind: PersistentVolume
 metadata:
   name: molecule-storage
 spec:
-  storageClassName: "azurefile"
+  storageClassName: ""
   capacity:
     storage: 100Gi
   accessModes:
@@ -154,7 +154,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: "azurefile"
+  storageClassName: ""
   resources:
     requests:
       storage: 100Gi
@@ -169,7 +169,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
-    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+    #appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
 spec:
   rules:
   - http:
