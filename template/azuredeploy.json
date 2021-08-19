@@ -147,7 +147,7 @@
       }
     },
     "netAppServiceLevel": {
-      "defaultValue": "Standard",
+      "defaultValue": "Premium",
       "type": "string",
       "allowedValues": [
         "Premium",
