@@ -1169,7 +1169,7 @@
           "networkPlugin": "azure",
           "networkPolicy": "azure",
           "loadBalancerSku": "Standard",
-          "loadBalancerProfile": "[json('null')]"
+          "loadBalancerProfile": "[json('null')]",
           "podCidr": "[parameters('aksClusterPodCidr')]",
           "serviceCidr": "[parameters('aksClusterServiceCidr')]",
           "dnsServiceIP": "[parameters('aksClusterDnsServiceIP')]",
