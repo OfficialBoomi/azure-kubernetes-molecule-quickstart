@@ -1152,16 +1152,6 @@
             "availabilityZones": "[parameters('aksNodePoolAvailabilityZones')]"
           }
         ],
-        "linuxProfile": {
-          "adminUsername": "azureuser",
-          "ssh": {
-            "publicKeys": [
-              {
-                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAynQAV/4xMy/dzzPeCp24tkowBZc4pBwVsuqCfmO6Ad3T0BZi77ehHYKe0QTGCyppO+KbpKi/ikbojRiYsojteR7QH0FGTf9ib3YsZmy7lwgJTFAXjHxTPMCGM3tqEiZOKX8bwEdkg1UEqFUC4USWNxvUjw2g6ISkENTcoJyITWX/8cMaza+aibvbH5OmSXAwiBmBK2c4S8XEXejDr6Rr5trTPtTnvUjhpXBHcI07LUfDnD+XW/MVO13sABvPt/hIdQYzjFpFUVxlr2FnsxuMjRc8/q1TUPHv1ApviPmGhfsLZjg++Ul41f1CRknyHmjDofGzcid5sWSN8OwGNRox"
-              }
-            ]
-          }
-        },
         "servicePrincipalProfile": {
           "clientId": "msi"
         },
