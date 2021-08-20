@@ -5,16 +5,33 @@ metadata:
   labels:
     app: molecule
 spec:
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 30
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 30
+      - type: Pods
+        value: 10
+        periodSeconds: 15
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 900
+        periodSeconds: 15
+      - type: Pods
+        value: 10
+        periodSeconds: 15
+      selectPolicy: Max
   scaleTargetRef:
     apiVersion: apps/v1
     kind: StatefulSet
     name: molecule
   minReplicas: 3
   maxReplicas: 200
-  ## Kubernetes v1.18 dependent.
-  #behavior:
-  #  scaleDown:
-  #    stabilizationWindowSeconds: 60
   metrics:
   - type: Resource
     resource:
