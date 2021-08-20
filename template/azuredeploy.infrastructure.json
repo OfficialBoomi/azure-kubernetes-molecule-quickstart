@@ -348,6 +348,9 @@
 
     "applicationGatewayContributorRoleAssignmentName": "[guid(concat(variables('deploymentName'), '-applicationGatewayContributorRoleAssignment'))]",
 
+    "aksLoadBalancerPublicIpAddressName": "[concat(variables('deploymentName'), '-aksLoadBalancerPublicIp')]",
+    "aksLoadBalancerPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('aksLoadBalancerPublicIpAddressName'))]",
+
     "natGatewayPublicIpAddressName": "[concat(variables('deploymentName'), '-natGatewayPublicIp')]",
     "natGatewayPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natGatewayPublicIpAddressName'))]",
 
@@ -531,6 +534,20 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('virtualMachinePublicIpAddressName')]",
       "apiVersion": "2020-07-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 30
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2020-07-01",
+      "name": "[variables('aksLoadBalancerPublicIpAddressName')]",
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "Standard"
@@ -1145,6 +1162,9 @@
             ]
           }
         },
+        "servicePrincipalProfile": {
+          "clientId": "msi"
+        },
         "addonProfiles": {
           "azurepolicy": {
             "enabled": true,
@@ -1169,12 +1189,28 @@
           "networkPlugin": "azure",
           "networkPolicy": "azure",
           "loadBalancerSku": "Standard",
-          "loadBalancerProfile": "[json('null')]",
+          "outboundType": "loadBalancer",
+          "loadBalancerProfile": {
+            "managedOutboundIPs": {
+              "count": 1
+            },
+            "effectiveOutboundIPs": [
+              {
+                "id": "[variables('aksLoadBalancerPublicIpAddressId')]"
+              }
+            ]
+          },
           "podCidr": "[parameters('aksClusterPodCidr')]",
           "serviceCidr": "[parameters('aksClusterServiceCidr')]",
           "dnsServiceIP": "[parameters('aksClusterDnsServiceIP')]",
-          "dockerBridgeCidr": "[parameters('aksClusterDockerBridgeCidr')]",
-          "outboundType": "loadBalancer"
+          "dockerBridgeCidr": "[parameters('aksClusterDockerBridgeCidr')]"
+        },
+        "identityProfile": {
+          "kubeletidentity": {
+            "clientId": "[reference(variables('applicationGatewayUserDefinedManagedIdentityId')).clientId]",
+            "objectId": "[reference(variables('aksClusterUserDefinedManagedIdentityId')).principalId]",
+            "resourceId": "[variables('aksClusterUserDefinedManagedIdentityId')]"
+          }
         },
         "aadProfile": "[if(parameters('aadEnabled'), variables('aadProfileConfiguration'), json('null'))]",
         "autoScalerProfile": {
