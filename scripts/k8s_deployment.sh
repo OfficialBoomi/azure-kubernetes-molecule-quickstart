@@ -132,7 +132,7 @@ kind: PersistentVolume
 metadata:
   name: molecule-storage
 spec:
-  storageClassName: "azurefile-csi-premium"
+  storageClassName: ""
   capacity:
     storage: 100Gi
   accessModes:
@@ -154,7 +154,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: "azurefile-csi-premium"
+  storageClassName: ""
   resources:
     requests:
       storage: 100Gi
