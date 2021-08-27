@@ -638,11 +638,11 @@
               "priority": 100,
               "access": "Allow",
               "direction": "Inbound",
+              "sourcePortRange": "*",
               "destinationPortRange": "22",
               "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
+              "sourceAddressPrefix": "[parameters('remoteAccessCIDR')]",
+              "destinationAddressPrefix": "[parameters('virtualMachineSubnetAddressPrefix')]",
             }
           }
         ]
