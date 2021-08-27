@@ -187,6 +187,121 @@ spec:
               number: 9090
 EOF
 
+cat >/tmp/statefulset_token.yaml <<EOF
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: molecule
+  labels:
+    app: molecule
+spec:
+  selector:
+    matchLabels:
+      app: molecule
+  serviceName: "molecule-service"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: molecule
+    spec:
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: molecule-storage
+          persistentVolumeClaim:
+            claimName: molecule-storage
+        - name: tmpfs
+          emptyDir: {}
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
+            type: Directory
+      nodeSelector:
+        agentpool: userpool
+      containers:
+      - image: boomi/molecule:release
+        imagePullPolicy: Always
+        name: atom-node
+        ports:
+        - name: http
+          containerPort: 9090
+          protocol: TCP
+        - name: https
+          containerPort: 9093
+          protocol: TCP
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - sh
+                - /home/boomi/scaledown.sh
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1536Mi"
+          requests:
+            cpu: "500m"
+            memory: "1024Mi"
+        volumeMounts:
+          - mountPath: "/mnt/boomi"
+            name: molecule-storage
+          - name: tmpfs
+            mountPath: "/run"
+          - name: tmpfs
+            mountPath: "/tmp"
+          - name: cgroup
+            mountPath: /sys/fs/cgroup
+        startupProbe:
+          timeoutSeconds: 90
+          failureThreshold: 90
+          exec:
+            command:
+              - sh
+              - /home/boomi/probe.sh
+              - startup
+        readinessProbe:
+          timeoutSeconds: 60
+          periodSeconds: 10
+          initialDelaySeconds: 10
+          exec:
+            command:
+              - sh
+              - /home/boomi/probe.sh
+              - readiness
+        livenessProbe:
+          timeoutSeconds: 60
+          periodSeconds: 60
+          exec:
+            command:
+              - sh
+              - /home/boomi/probe.sh
+              - liveness
+        env:
+        - name: BOOMI_ATOMNAME
+          value: "Boomi-AKS"
+        - name: ATOM_LOCALHOSTID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: BOOMI_ACCOUNTID
+          valueFrom:
+            secretKeyRef:
+              name: boomi-secret
+              key: account
+        - name: INSTALL_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: boomi-secret
+              key: token
+        - name: BOOMI_CONTAINERNAME
+          value: "$molecule_cluster_name"
+        - name: INSTALLATION_DIRECTORY
+          value: "/mnt/boomi"
+        - name: CONTAINER_PROPERTIES_OVERRIDES
+          value: "com.boomi.deployment.quickstart=True|com.boomi.container.is.orchestrated.container=true|com.boomi.container.cloudlet.findInitialHostsTimeout=5000|com.boomi.container.elasticity.asyncPollerTimeout=75000|com.boomi.container.elasticity.forceRestartOverride=50000"
+EOF
+
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
@@ -199,7 +314,9 @@ kubectl apply -f /tmp/persistentvolumeclam.yaml --namespace=aks-boomi-molecule -
 
 if [ $boomi_auth == "token" ]
 then
-kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/statefulset_token.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+#kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/statefulset_token.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+
+kubectl apply -f /tmp/statefulset_token.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 else
 kubectl apply -f https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/kubernetes/statefulset_password.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 fi
