@@ -37,6 +37,20 @@
         "description": "Specifies the NetApp File subnet IP prefix. This prefix must be within vnet IP prefix address space."
       }
     },
+    "remoteAccessCIDR": {
+      "type": "string",
+      "defaultValue": "0.0.0.0/0",
+      "metadata": {
+        "description": "The CIDR IP range that is permitted to access the bastion instances. We recommend that you set this value to a trusted IP range."
+      }
+    },
+    "moleculeClusterName": {
+      "type": "string",
+      "defaultValue": "Boomi-Molecule-AKS",
+      "metadata": {
+        "description": "The name for the Boomi Molecule cluster."
+      }
+    },
     "aksClusterKubernetesVersion": {
       "type": "string",
       "defaultValue": "1.21.2",
@@ -283,8 +297,14 @@
           "netAppFileSubnetAddressPrefix": {
             "value": "[parameters('netAppFileSubnetAddressPrefix')]"
           },
-          "netAppServiceLevel": {
-            "value": "[parameters('netAppServiceLevel')]"
+          "remoteAccessCIDR": {
+            "value": "[parameters('remoteAccessCIDR')]"
+          },
+          "moleculeClusterName": {
+            "value": "[parameters('moleculeClusterName')]"
+          },
+          "aksClusterKubernetesVersion": {
+            "value": "[parameters('aksClusterKubernetesVersion')]"
           },
           "aksClusterKubernetesVersion": {
             "value": "[parameters('aksClusterKubernetesVersion')]"
