@@ -142,7 +142,7 @@ spec:
   accessModes:
     - ReadWriteMany
   mountOptions:
-    - nfsvers=4.1
+    - vers=4.1
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: $netAppIP
