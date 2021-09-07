@@ -783,7 +783,7 @@
           ]
         },
         "protocolTypes": [
-          "NFSv4.1"
+          "NFSv3"
         ],
         "subnetId": "[variables('netAppFileSubnetId')]",
         "snapshotDirectoryVisible": false
