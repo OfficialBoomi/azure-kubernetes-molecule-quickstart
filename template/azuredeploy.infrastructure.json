@@ -775,8 +775,9 @@
               "unixReadOnly": false,
               "unixReadWrite": true,
               "cifs": false,
-              "nfsv3": false,
-              "nfsv41": true,
+              "nfsv3": true,
+              "nfsv41": false,
+              "chownMode": "Unrestricted",
               "allowedClients": "[parameters('virtualNetworkAddressPrefixes')]"
             }
           ]
