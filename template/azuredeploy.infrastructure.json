@@ -642,7 +642,7 @@
               "destinationPortRange": "22",
               "protocol": "Tcp",
               "sourceAddressPrefix": "[parameters('remoteAccessCIDR')]",
-              "destinationAddressPrefix": "[parameters('virtualMachineSubnetAddressPrefix')]",
+              "destinationAddressPrefix": "[parameters('virtualMachineSubnetAddressPrefix')]"
             }
           }
         ]
