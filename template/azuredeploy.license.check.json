@@ -356,15 +356,15 @@
   "outputs": {
     "virtualMachinePublicIpAddress": {
       "type": "string",
-      "value": "[reference('BoomiAKSQuickStart').outputs.virtualMachinePublicIpAddress.value]"
+      "value": "[reference('BoomiAKSQuickStart','2021-04-01').outputs.virtualMachinePublicIpAddress.value]"
     },
     "applicationGatewayPublicIpAddress": {
       "type": "string",
-      "value": "[reference('BoomiAKSQuickStart').outputs.applicationGatewayPublicIpAddress.value]"
+      "value": "[reference('BoomiAKSQuickStart','2021-04-01').outputs.applicationGatewayPublicIpAddress.value]"
     },
     "netAppFileVolumeIPAddress": {
       "type": "string",
-      "value": "[reference('BoomiAKSQuickStart').outputs.netAppFileVolumeIPAddress.value]"
+      "value": "[reference('BoomiAKSQuickStart','2021-04-01').outputs.netAppFileVolumeIPAddress.value]"
     }
   }
 }
