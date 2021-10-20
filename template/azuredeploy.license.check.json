@@ -249,7 +249,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/template/azuredeploy.infrastructure.json",
+          "uri": "https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/template/azuredeploy.infrastructure.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
