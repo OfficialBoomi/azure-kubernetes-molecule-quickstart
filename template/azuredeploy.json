@@ -244,7 +244,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/template/azuredeploy.license.validation.json",
+          "uri": "https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/template/azuredeploy.license.validation.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -276,7 +276,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/template/azuredeploy.license.check.json",
+          "uri": "https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/template/azuredeploy.license.check.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
