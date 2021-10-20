@@ -1,7 +1,7 @@
 #!/bin/bash
 
-wget https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/scripts/requirements.txt
-wget https://raw.githubusercontent.com/vilvamani/quickstart-aks-boomi-molecule/main/scripts/license_validation.py
+wget https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/scripts/requirements.txt
+wget https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/scripts/license_validation.py
 
 pip install -t . -r ./requirements.txt
 
