@@ -1205,7 +1205,7 @@
               }
             ]
           },
-          "podCidr": "[parameters('aksClusterPodCidr')]",
+         /* "podCidr": "[parameters('aksClusterPodCidr')]",*/
           "serviceCidr": "[parameters('aksClusterServiceCidr')]",
           "dnsServiceIP": "[parameters('aksClusterDnsServiceIP')]",
           "dockerBridgeCidr": "[parameters('aksClusterDockerBridgeCidr')]"
