@@ -1445,17 +1445,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/scripts/k8s_deployment.sh"
           ],
-          "commandToExecute": "[concat('./k8s_deployment.sh', ' --resource_group \"',
-          
-           resourceGroup().name, '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'),
-            '\" --aks_name \"', variables('aksClusterName'), '\" --molecule_cluster_name \"', 
-            parameters('moleculeClusterName'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), 
-            '\" --boomi_token \"', parameters('BoomiMFAInstallToken'), '\" --boomi_username \"',
-             parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), 
-             '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --fileshare \"', variables('netAppVolumeName'),
-             '\" --pod_cpu\"',parameters('PodCPUSize'),'\" --pod_memory\"',parameters('PodMemorySize'),'\" --pv_size\"',parameters('PersistentVolumeSize'),
-             '\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/', 
-             variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress,'\"')]"
+          "commandToExecute": "[concat('./k8s_deployment.sh',' --resource_group \"',resourceGroup().name, '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'),'\" --aks_name \"', variables('aksClusterName'), '\" --molecule_cluster_name \"',parameters('moleculeClusterName'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiMFAInstallToken'), '\" --boomi_username \"',parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --fileshare \"', variables('netAppVolumeName'),'\" --pod_cpu \"', parameters('PodCPUSize'),'\" --pod_memory \"',parameters('PodMemorySize'),'\" --pv_size \"',parameters('PersistentVolumeSize'),'\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/',variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress,'\"')]"
         }
       }
     }
@@ -1478,4 +1468,4 @@
       "value": "[variables('aksClusterName')]"
     }
   }
-}
+} 
