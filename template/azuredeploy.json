@@ -161,6 +161,40 @@
         "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
       }
     },
+    "PodCPUSize": {
+      "defaultValue": "1000m",
+      "type": "string",
+      "allowedValues": [
+        "1000m",
+        "2000m"
+      ],
+      "metadata": {
+        "description": "Specifies Pod limit CPU Size"
+      }
+    },
+    "PodMemorySize": {
+      "defaultValue": "1024Mi",
+      "type": "string",
+      "allowedValues": [
+        "512Mi",
+        "1024Mi",
+        "2064Mi"
+      ],
+      "metadata": {
+        "description": "Specifies Pod limit Memory Size"
+      }
+    },
+    "PersistentVolumeSize": {
+      "defaultValue": "250Gi",
+      "type": "string",
+      "allowedValues": [
+        "250Gi",
+        "500Gi"
+      ],
+      "metadata": {
+        "description": "Specifies persistent volume size"
+      }
+    },
     "netAppServiceLevel": {
       "defaultValue": "Premium",
       "type": "string",
@@ -303,9 +337,6 @@
           },
           "moleculeClusterName": {
             "value": "[parameters('moleculeClusterName')]"
-          },
-          "aksClusterKubernetesVersion": {
-            "value": "[parameters('aksClusterKubernetesVersion')]"
           },
           "aksClusterKubernetesVersion": {
             "value": "[parameters('aksClusterKubernetesVersion')]"
