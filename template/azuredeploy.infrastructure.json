@@ -100,13 +100,6 @@
         "description": "Specifies the tags of the AKS cluster."
       }
     },
-    "aksClusterPodCidr": {
-      "defaultValue": "10.0.20.0/22",
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
-      }
-    },
     "aksClusterServiceCidr": {
       "defaultValue": "10.0.24.0/24",
       "type": "string",
@@ -177,27 +170,6 @@
         "description": "Specifies the maximum number of nodes for auto-scaling for the system node pool."
       }
     },
-    "systemNodePoolMaxPods": {
-      "defaultValue": 30,
-      "type": "int",
-      "metadata": {
-        "description": "Specifies the maximum number of pods that can run on a node in the system node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
-      }
-    },
-    "systemNodePoolNodeLabels": {
-      "defaultValue": {},
-      "type": "object",
-      "metadata": {
-        "description": "Specifies the Agent pool node labels to be persisted across all nodes in the system node pool."
-      }
-    },
-    "systemNodePoolNodeTaints": {
-      "defaultValue": [],
-      "type": "array",
-      "metadata": {
-        "description": "Specifies the taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. - string"
-      }
-    },
     "aksNodePoolAvailabilityZones": {
       "defaultValue": [],
       "type": "array",
@@ -226,25 +198,38 @@
         "description": "Specifies the maximum number of nodes for auto-scaling for the user node pool."
       }
     },
-    "userNodePoolMaxPods": {
-      "defaultValue": 15,
-      "type": "int",
+    "PodCPUSize": {
+      "defaultValue": "1000m",
+      "type": "string",
+      "allowedValues": [
+        "1000m",
+        "2000m"
+      ],
       "metadata": {
-        "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
+        "description": "Specifies Pod limit CPU Size"
       }
     },
-    "userNodePoolNodeLabels": {
-      "defaultValue": {},
-      "type": "object",
+    "PodMemorySize": {
+      "defaultValue": "1024Mi",
+      "type": "string",
+      "allowedValues": [
+        "512Mi",
+        "1024Mi",
+        "2064Mi"
+      ],
       "metadata": {
-        "description": "Specifies the Agent pool node labels to be persisted across all nodes in the user node pool."
+        "description": "Specifies Pod limit Memory Size"
       }
     },
-    "userNodePoolNodeTaints": {
-      "defaultValue": [],
-      "type": "array",
+    "PersistentVolumeSize": {
+      "defaultValue": "250Gi",
+      "type": "string",
+      "allowedValues": [
+        "250Gi",
+        "500Gi"
+      ],
       "metadata": {
-        "description": "Specifies the taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. - string"
+        "description": "Specifies persistent volume size"
       }
     },
     "applicationGatewayZones": {
@@ -1411,7 +1396,17 @@
           "fileUris": [
             "https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/scripts/k8s_deployment.sh"
           ],
-          "commandToExecute": "[concat('./k8s_deployment.sh', ' --resource_group \"', resourceGroup().name, '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'), '\" --aks_name \"', variables('aksClusterName'), '\" --molecule_cluster_name \"', parameters('moleculeClusterName'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiMFAInstallToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/', variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress, '\"')]"
+          "commandToExecute": "[concat('./k8s_deployment.sh', ' --resource_group \"',
+          
+           resourceGroup().name, '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'),
+            '\" --aks_name \"', variables('aksClusterName'), '\" --molecule_cluster_name \"', 
+            parameters('moleculeClusterName'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), 
+            '\" --boomi_token \"', parameters('BoomiMFAInstallToken'), '\" --boomi_username \"',
+             parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), 
+             '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --fileshare \"', variables('netAppVolumeName'),
+             '\" --pod_cpu\"',parameters('PodCPUSize'),'\" --pod_memory\"',parameters('PodMemorySize'),'\" --pv_size\"',parameters('PersistentVolumeSize'),
+             '\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/', 
+             variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress,'\"')]"
         }
       }
     }
