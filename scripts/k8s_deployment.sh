@@ -45,6 +45,18 @@ do
       fileshare="$1"
       shift
       ;;
+    --pod_cpu)
+      pod_cpu="$1"
+      shift
+      ;;
+    --pod_memory)
+      pod_memory="$1"
+      shift
+      ;;
+    --pv_size)
+      pv_size="$1"
+      shift
+      ;;
     --netAppIP)
       netAppIP="$1"
       shift
@@ -138,7 +150,7 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: 100Gi
+    storage: $pv_size
   accessModes:
     - ReadWriteMany
   mountOptions:
@@ -161,7 +173,7 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 100Gi
+      storage: $pv_size
 EOF
 
 cat >/tmp/ingress.yaml <<EOF
@@ -238,8 +250,8 @@ spec:
                 - /home/boomi/scaledown.sh
         resources:
           limits:
-            cpu: "1000m"
-            memory: "1536Mi"
+            cpu: $pod_cpu
+            memory: $pod_memory
           requests:
             cpu: "500m"
             memory: "1024Mi"
@@ -358,8 +370,8 @@ spec:
                 - /home/boomi/scaledown.sh
         resources:
           limits:
-            cpu: "1000m"
-            memory: "1536Mi"
+            cpu: $pod_cpu
+            memory: $pod_memory
           requests:
             cpu: "500m"
             memory: "1024Mi"
