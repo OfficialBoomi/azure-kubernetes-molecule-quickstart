@@ -232,7 +232,7 @@ spec:
       nodeSelector:
         agentpool: userpool
       containers:
-      - image: boomi/molecule:release
+      - image: jaygazulaboomi/v4:latest
         imagePullPolicy: Always
         name: atom-node
         ports:
