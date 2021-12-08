@@ -267,7 +267,7 @@
         "1024Mi",
         "2064Mi"
       ],
-      "defaultValue": "2064Mi",
+      "defaultValue": "1024Mi",
       "metadata": {
         "description": "Specifies Pod limit Memory Size"
       }
