@@ -247,8 +247,7 @@
         "description": "Specifies the taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. - string"
       }
     },
-      "PodCPUSize": {
-      
+      "PodCPUSize": {  
       "type": "string",
       "allowedValues": [
         "1000m",
@@ -260,7 +259,6 @@
       }
     },
     "PodMemorySize": {
-    
       "type": "string",
       "allowedValues": [
         "512Mi",
@@ -272,8 +270,7 @@
         "description": "Specifies Pod limit Memory Size"
       }
     },
-    "PersistentVolumeSize": {
-      
+    "PersistentVolumeSize": { 
       "type": "string",
       "allowedValues": [
         "250Gi",
