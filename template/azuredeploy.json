@@ -162,12 +162,13 @@
       }
     },
     "PodCPUSize": {
-      "defaultValue": "1000m",
+      
       "type": "string",
       "allowedValues": [
         "1000m",
         "2000m"
       ],
+      "defaultValue": "1000m",
       "metadata": {
         "description": "Specifies Pod limit CPU Size"
       }
@@ -186,12 +187,13 @@
       }
     },
     "PersistentVolumeSize": {
-      "defaultValue": "250Gi",
+     
       "type": "string",
       "allowedValues": [
         "250Gi",
         "500Gi"
       ],
+      "defaultValue": "250Gi",
       "metadata": {
         "description": "Specifies persistent volume size"
       }
