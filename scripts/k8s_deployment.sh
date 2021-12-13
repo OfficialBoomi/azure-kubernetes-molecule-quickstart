@@ -223,6 +223,8 @@ spec:
         - name: molecule-storage
           persistentVolumeClaim:
             claimName: molecule-storage
+      nodeSelector:
+        agentpool: userpool
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -318,6 +320,8 @@ spec:
         - name: molecule-storage
           persistentVolumeClaim:
             claimName: molecule-storage
+      nodeSelector:
+        agentpool: userpool
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
