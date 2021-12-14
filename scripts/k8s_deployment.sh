@@ -189,7 +189,7 @@ metadata:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
 spec:
   rules:
-  - https:
+  - http:
       paths:
       - path: /
         pathType: Prefix
