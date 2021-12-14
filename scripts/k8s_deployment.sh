@@ -387,7 +387,7 @@ EOF
 
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/secrets.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
@@ -402,13 +402,13 @@ else
 kubectl apply -f /tmp/statefulset_password.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 fi
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 sleep 120
 
-#kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+#kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
