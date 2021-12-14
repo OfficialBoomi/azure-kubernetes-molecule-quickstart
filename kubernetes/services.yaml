@@ -10,4 +10,4 @@ spec:
   ports:
   - protocol: TCP
     port: 9093
-    targetPort: 9093
+    targetPort: 9090
