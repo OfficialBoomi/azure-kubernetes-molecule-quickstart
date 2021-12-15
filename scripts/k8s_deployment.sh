@@ -186,7 +186,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
-    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+    #appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
 spec:
   rules:
   - http:
@@ -197,7 +197,7 @@ spec:
           service:
             name: molecule-service
             port:
-              number: 9093
+              number: 9090
 EOF
 
 cat >/tmp/statefulset_password.yaml <<EOF
@@ -224,21 +224,24 @@ spec:
         - name: molecule-storage
           persistentVolumeClaim:
             claimName: molecule-storage
+        - name: tmpfs
+          emptyDir: {}
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
+            type: Directory
       nodeSelector:
         agentpool: userpool
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: Always
       containers:
       - image: boomi/molecule:release
         imagePullPolicy: Always
         name: atom-node
         ports:
-        - containerPort: 9090
+        - name: http
+          containerPort: 9090
           protocol: TCP
-        - containerPort: 9093
+        - name: https
+          containerPort: 9093
           protocol: TCP
         lifecycle:
           preStop:
@@ -248,25 +251,45 @@ spec:
                 - /home/boomi/scaledown.sh
         resources:
           limits:
-            cpu: $pod_cpu
-            memory: $pod_memory
+            cpu: "1000m"
+            memory: "1536Mi"
           requests:
             cpu: "500m"
-            memory: "768Mi"
+            memory: "1024Mi"
         volumeMounts:
-          - name: molecule-storage
-            mountPath: "/mnt/boomi"
+          - mountPath: "/mnt/boomi"
+            name: molecule-storage
+          - name: tmpfs
+            mountPath: "/run"
+          - name: tmpfs
+            mountPath: "/tmp"
+          - name: cgroup
+            mountPath: /sys/fs/cgroup
+        startupProbe:
+          timeoutSeconds: 90
+          failureThreshold: 90
+          exec:
+            command:
+              - sh
+              - /home/boomi/probe.sh
+              - startup
         readinessProbe:
+          timeoutSeconds: 60
           periodSeconds: 10
           initialDelaySeconds: 10
-          httpGet:
-            path: /_admin/readiness
-            port: 9090
+          exec:
+            command:
+              - sh
+              - /home/boomi/probe.sh
+              - readiness
         livenessProbe:
+          timeoutSeconds: 60
           periodSeconds: 60
-          httpGet:
-            path: /_admin/liveness
-            port: 9090
+          exec:
+            command:
+              - sh
+              - /home/boomi/probe.sh
+              - liveness
         env:
         - name: BOOMI_ATOMNAME
           value: "Boomi-AKS"
@@ -294,7 +317,7 @@ spec:
         - name: INSTALLATION_DIRECTORY
           value: "/mnt/boomi"
         - name: CONTAINER_PROPERTIES_OVERRIDES
-          value: "com.boomi.container.debug=true"
+          value: "com.boomi.deployment.quickstart=True|com.boomi.container.is.orchestrated.container=true|com.boomi.container.cloudlet.findInitialHostsTimeout=5000|com.boomi.container.elasticity.asyncPollerTimeout=75000|com.boomi.container.elasticity.forceRestartOverride=50000"
 EOF
 
 cat >/tmp/statefulset_token.yaml <<EOF
