@@ -224,24 +224,19 @@ spec:
         - name: molecule-storage
           persistentVolumeClaim:
             claimName: molecule-storage
-        - name: tmpfs
-          emptyDir: {}
-        - name: cgroup
-          hostPath:
-            path: /sys/fs/cgroup
-            type: Directory
-      nodeSelector:
-        agentpool: userpool
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
       containers:
-      - image: boomi/molecule:release
+      - image: jaygazulaboomi/v4:latest
         imagePullPolicy: Always
         name: atom-node
         ports:
-        - name: http
-          containerPort: 9090
+        - containerPort: 9090
           protocol: TCP
-        - name: https
-          containerPort: 9093
+        - containerPort: 9093
           protocol: TCP
         lifecycle:
           preStop:
@@ -251,45 +246,25 @@ spec:
                 - /home/boomi/scaledown.sh
         resources:
           limits:
-            cpu: "1000m"
-            memory: "1536Mi"
+            cpu: $pod_cpu
+            memory: $pod_memory
           requests:
             cpu: "500m"
-            memory: "1024Mi"
+            memory: "768Mi"
         volumeMounts:
-          - mountPath: "/mnt/boomi"
-            name: molecule-storage
-          - name: tmpfs
-            mountPath: "/run"
-          - name: tmpfs
-            mountPath: "/tmp"
-          - name: cgroup
-            mountPath: /sys/fs/cgroup
-        startupProbe:
-          timeoutSeconds: 90
-          failureThreshold: 90
-          exec:
-            command:
-              - sh
-              - /home/boomi/probe.sh
-              - startup
+          - name: molecule-storage
+            mountPath: "/mnt/boomi"
         readinessProbe:
-          timeoutSeconds: 60
           periodSeconds: 10
           initialDelaySeconds: 10
-          exec:
-            command:
-              - sh
-              - /home/boomi/probe.sh
-              - readiness
+          httpGet:
+            path: /_admin/readiness
+            port: 9090
         livenessProbe:
-          timeoutSeconds: 60
           periodSeconds: 60
-          exec:
-            command:
-              - sh
-              - /home/boomi/probe.sh
-              - liveness
+          httpGet:
+            path: /_admin/liveness
+            port: 9090
         env:
         - name: BOOMI_ATOMNAME
           value: "Boomi-AKS"
@@ -317,7 +292,7 @@ spec:
         - name: INSTALLATION_DIRECTORY
           value: "/mnt/boomi"
         - name: CONTAINER_PROPERTIES_OVERRIDES
-          value: "com.boomi.deployment.quickstart=True|com.boomi.container.is.orchestrated.container=true|com.boomi.container.cloudlet.findInitialHostsTimeout=5000|com.boomi.container.elasticity.asyncPollerTimeout=75000|com.boomi.container.elasticity.forceRestartOverride=50000"
+          value: "com.boomi.container.debug=true"
 EOF
 
 cat >/tmp/statefulset_token.yaml <<EOF
