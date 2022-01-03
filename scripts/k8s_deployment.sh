@@ -230,7 +230,7 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: Always
       containers:
-      - image: jaygazulaboomi/v4:latest
+      - image: boomi/molecule:4.0.0
         imagePullPolicy: Always
         name: atom-node
         ports:
@@ -327,7 +327,7 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: Always
       containers:
-      - image: jaygazulaboomi/v4:latest
+      - image: boomi/molecule:4.0.0
         imagePullPolicy: Always
         name: atom-node
         ports:
