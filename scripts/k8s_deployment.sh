@@ -225,10 +225,10 @@ spec:
           persistentVolumeClaim:
             claimName: molecule-storage
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        #runAsUser: 1000
+        #runAsGroup: 1000
         fsGroup: 1000
-        fsGroupChangePolicy: Always
+        #fsGroupChangePolicy: Always
       containers:
       - image: boomi/molecule:4.0.0
         imagePullPolicy: Always
@@ -322,10 +322,10 @@ spec:
       nodeSelector:
         agentpool: userpool
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        #runAsUser: 1000
+        #runAsGroup: 1000
         fsGroup: 1000
-        fsGroupChangePolicy: Always
+        #fsGroupChangePolicy: Always
       containers:
       - image: boomi/molecule:4.0.0
         imagePullPolicy: Always
