@@ -41,6 +41,10 @@ do
       boomi_account="$1"
       shift
       ;;
+    --boomi_molecule_name)
+      boomi_molecule_name="$1"
+      shift
+      ;;
     --fileshare)
       fileshare="$1"
       shift
@@ -185,7 +189,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
-    #appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
 spec:
   rules:
   - http:
@@ -265,7 +269,7 @@ spec:
             port: 9090
         env:
         - name: BOOMI_ATOMNAME
-          value: "Boomi-AKS"
+          value: "$boomi_molecule_name"
         - name: ATOM_LOCALHOSTID
           valueFrom:
             fieldRef:
@@ -359,7 +363,7 @@ spec:
             port: 9090
         env:
         - name: BOOMI_ATOMNAME
-          value: "Boomi-AKS"
+          value: "$boomi_molecule_name"
         - name: ATOM_LOCALHOSTID
           valueFrom:
             fieldRef:
