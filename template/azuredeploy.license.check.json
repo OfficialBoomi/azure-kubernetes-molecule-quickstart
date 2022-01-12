@@ -269,6 +269,13 @@
         "description": "The password associated with the Boomi account."
       }
     },
+    "BoomiMoleculeName": {
+      "defaultValue": "Boomi-AKS",
+      "type": "string",
+      "metadata": {
+        "description": "The Boomi Molecule cluster name"
+      }
+    },
     "sslCertificateSecretData": {
       "type": "securestring"
     }
@@ -388,6 +395,9 @@
           },
           "BoomiPassword": {
             "value": "[parameters('BoomiPassword')]"
+          },
+          "BoomiMoleculeName": {
+            "value": "[parameters('BoomiMoleculeName')]"
           },
           "sslCertificateSecretData": {
             "value": "[parameters('sslCertificateSecretData')]"
