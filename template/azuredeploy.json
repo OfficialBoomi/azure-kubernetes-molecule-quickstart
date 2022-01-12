@@ -264,7 +264,7 @@
         "description": "The password associated with the Boomi account."
       }
     },
-    "BoomiMoleculeName" {
+    "BoomiMoleculeName": {
     "defaultValue": "Boomi-AKS",
       "type": "string",
       "metadata": {
