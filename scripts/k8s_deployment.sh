@@ -289,10 +289,6 @@ spec:
             secretKeyRef:
               name: boomi-secret
               key: password
-        - name: BOOMI_CONTAINERNAME
-          value: "$molecule_cluster_name"
-        - name: INSTALLATION_DIRECTORY
-          value: "/mnt/boomi"
         - name: CONTAINER_PROPERTIES_OVERRIDES
           value: "com.boomi.container.debug=true"
 EOF
