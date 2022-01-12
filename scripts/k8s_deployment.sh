@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 while [[ $# > 0 ]]
 do
   key="$1"
@@ -186,7 +185,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
-    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+    #appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
 spec:
   rules:
   - http:
@@ -224,8 +223,10 @@ spec:
         - name: molecule-storage
           persistentVolumeClaim:
             claimName: molecule-storage
+      nodeSelector:
+        agentpool: userpool
       securityContext:
-        fsGroup: 1000
+        fsGroup: 1000 
       containers:
       - image: boomi/molecule:4.0.0
         imagePullPolicy: Always
@@ -379,7 +380,7 @@ EOF
 
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/secrets.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
@@ -394,13 +395,13 @@ else
 kubectl apply -f /tmp/statefulset_password.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 fi
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 sleep 120
 
-#kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+#kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
