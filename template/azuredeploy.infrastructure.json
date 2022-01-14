@@ -810,7 +810,7 @@
           "serviceLevel": "[parameters('netAppServiceLevel')]",
           "creationToken": "[variables('netAppVolumeName')]",
           "usageThreshold": 4398046511104,
-          "throughputMibps":100,
+          "throughputMibps":60,
           "exportPolicy": {
             "rules": [
               {
