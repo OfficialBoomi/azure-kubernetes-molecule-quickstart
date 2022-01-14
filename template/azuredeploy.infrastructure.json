@@ -809,7 +809,7 @@
         "properties": {
           "serviceLevel": "[parameters('netAppServiceLevel')]",
           "creationToken": "[variables('netAppVolumeName')]",
-          "usageThreshold": 1000000000000,
+          "usageThreshold": 1073741824000,
           "throughputMibps":100,
           "exportPolicy": {
             "rules": [
