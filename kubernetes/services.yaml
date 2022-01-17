@@ -6,13 +6,14 @@ metadata:
     app: molecule
 spec:
   selector:
+    type: NodePort
     app: molecule
   ports:
-  - name: port1
-    protocol: TCP
-    port: 9090
-    targetPort: 9090
-  - name: port2
+  - name: https
     protocol: TCP
     port: 9093
+    targetPort: 9090
+  - name: http
+    protocol: TCP
+    port: 9090
     targetPort: 9090
