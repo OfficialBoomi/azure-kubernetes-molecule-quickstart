@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: molecule-service
+  name: molecule-service1
   labels:
     app: molecule
 spec:
