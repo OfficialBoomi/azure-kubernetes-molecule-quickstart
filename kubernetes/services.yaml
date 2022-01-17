@@ -8,9 +8,11 @@ spec:
   selector:
     app: molecule
   ports:
-  - protocol: TCP
+  - name: port1
+    protocol: TCP
     port: 9090
     targetPort: 9090
-  - protocol: TCP
+  - name: port2
+    protocol: TCP
     port: 9093
     targetPort: 9090
