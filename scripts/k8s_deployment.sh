@@ -189,7 +189,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
-    #appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
   - http:
