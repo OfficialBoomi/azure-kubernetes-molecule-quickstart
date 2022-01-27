@@ -155,24 +155,10 @@
                     },
                     {
                         "name": "aksClusterEnablePrivateCluster",
-                        "type": "Microsoft.Common.DropDown",
+                        "type": "Microsoft.Common.CheckBox",
                         "label": "AKS Cluster Enable Private Cluster",
-                        "toolTip": "Specifies whether to create the cluster as a private cluster or not.",
-                        "defaultValue": "False",
-                        "constraints": {
-                        "allowedValues": [
-                        {
-                            "label": "True", 
-                            "value": "True"
-                        },
-                        {
-                            "label": "False", 
-                            "value": "False"
-                        }
-                        
-                    ],
-                            "required": true
-                        }
+                        "toolTip": "Check create the cluster as a private cluster or not."
+                                            
                     },   
                     {
                         "name": "aksClusterSkuTier",
