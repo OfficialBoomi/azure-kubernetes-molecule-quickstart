@@ -50,13 +50,6 @@
         "description": "The CIDR IP range that is permitted to access the bastion instances. We recommend that you set this value to a trusted IP range."
       }
     },
-    "moleculeClusterName": {
-      "type": "string",
-      "defaultValue": "Boomi-Molecule-AKS",
-      "metadata": {
-        "description": "The name for the Boomi Molecule cluster."
-      }
-    },
     "aksClusterKubernetesVersion": {
       "type": "string",
       "defaultValue": "1.21.1",
@@ -314,9 +307,6 @@
           },
           "remoteAccessCIDR": {
             "value": "[parameters('remoteAccessCIDR')]"
-          },
-          "moleculeClusterName": {
-            "value": "[parameters('moleculeClusterName')]"
           },
           "aksClusterKubernetesVersion": {
             "value": "[parameters('aksClusterKubernetesVersion')]"
