@@ -502,7 +502,7 @@
         "outputs":
          {
             "location": "[location()]",
-            "virtualMachineSize": "[basics(virtualMachineSize)]",
+            
             "virtualMachineAdminUsername": "[basics('virtualMachineAdminUsername')]",
             "virtualMachineAdminPassword": "[basics('virtualMachineAdminPassword')]",
 
@@ -512,6 +512,7 @@
             "virtualMachineSubnetAddressPrefix": "[steps('AzureInfrastructureConfig').virtualMachineSubnetAddressPrefix]",
             "netAppFileSubnetAddressPrefix": "[steps('AzureInfrastructureConfig').netAppFileSubnetAddressPrefix]",
             "remoteAccessCIDR": "[steps('AzureInfrastructureConfig').remoteAccessCIDR]",
+            "virtualMachineSize": "[steps('AzureInfrastructureConfig').virtualMachineSize]",
             "sslCertificateSecretData": "[steps('AzureInfrastructureConfig').sslCertificateSecretData]",
 
             "aksClusterKubernetesVersion": "[steps('KubernetesConfig').aksClusterKubernetesVersion]",
