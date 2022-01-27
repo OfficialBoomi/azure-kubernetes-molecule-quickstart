@@ -4,17 +4,7 @@
     "version": "0.1.2-preview",
     "parameters": {   
         "basics": [
-            {
-                "name": "virtualMachineSize",
-                "type": "Microsoft.Compute.SizeSelector",
-                "label": "Virtual machine size",
-                "toolTip": "Virtual machine size for bastion host",
-                "recommendedSizes": [
-                    "Standard_DS1_v2"
-                ],
-                "osPlatform": "Linux",
-                "count": "1"
-            },
+            
             {
                 "name": "virtualMachineAdminUsername",
                 "type": "Microsoft.Common.TextBox",
@@ -42,6 +32,7 @@
                     "hideConfirmation": false
                 }
             }
+            
         ],
         "steps": [
             {
@@ -112,6 +103,17 @@
                         "constraints": {
                             "required": true
                                 }
+                    },
+                    {
+                        "name": "virtualMachineSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "Virtual machine size",
+                        "toolTip": "Virtual machine size for bastion host",
+                        "recommendedSizes": [
+                            "Standard_DS1_v2"
+                        ],
+                        "osPlatform": "Linux",
+                        "count": "1"
                     },
                     {
                         "name": "sslCertificateSecretData",
