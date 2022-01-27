@@ -9,10 +9,6 @@ do
       resource_group="$1"
       shift
       ;;
-    --molecule_cluster_name|-mcn)
-      molecule_cluster_name="$1"
-      shift
-      ;;
     --aks_name|-an)
       aks_name="$1"
       shift
