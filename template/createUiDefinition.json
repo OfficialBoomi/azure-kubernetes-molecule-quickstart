@@ -149,9 +149,7 @@
                  
                         },
                         "toolTip": "Specifies PFX format ssl certificate encoded data",
-                        "constraints": {
-                            "required": true
-                                },
+               
                          "options": {
                          "hideConfirmation": true
                                 }
