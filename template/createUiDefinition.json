@@ -116,6 +116,31 @@
                         "count": "1"
                     },
                     {
+                        "name": "netAppServiceLevel",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Net App Service Level",
+                        "toolTip": "Target performance for the capacity pool. Service level: Ultra, Premium, or Standard.",
+                        "defaultValue": "Premium",
+                        "constraints": {
+                        "allowedValues": [
+                        {
+                            "label": "Premium", 
+                            "value": "Premium"
+                        },
+                        {
+                            "label": "Ultra", 
+                            "value": "Ultra"
+                        },
+                        {
+                            "label": "Standard", 
+                            "value": "Standard"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    },
+                    {
                         "name": "sslCertificateSecretData",
                         "type": "Microsoft.Common.PasswordBox",
                         "label": {
@@ -369,31 +394,6 @@
                     ],
                             "required": true
                         }
-                    },   
-                    {
-                        "name": "netAppServiceLevel",
-                        "type": "Microsoft.Common.DropDown",
-                        "label": "Net App Service Level",
-                        "toolTip": "Target performance for the capacity pool. Service level: Ultra, Premium, or Standard.",
-                        "defaultValue": "Premium",
-                        "constraints": {
-                        "allowedValues": [
-                        {
-                            "label": "Premium", 
-                            "value": "Premium"
-                        },
-                        {
-                            "label": "Ultra", 
-                            "value": "Ultra"
-                        },
-                        {
-                            "label": "Standard", 
-                            "value": "Standard"
-                        }
-                        
-                    ],
-                            "required": true
-                        }
                     }
                 ]            
             },
@@ -433,10 +433,8 @@
                         "type": "Microsoft.Common.TextBox",
                         "label": "Boomi User name",
                         "toolTip": "The email account associated with the Boomi account.",
-                        "defaultValue": "",
-                        "constraints": {
-                            "required": true
-                        }
+                        "defaultValue": ""
+                        
                     },
                     {
                         
@@ -505,6 +503,7 @@
             "netAppFileSubnetAddressPrefix": "[steps('AzureInfrastructureConfig').netAppFileSubnetAddressPrefix]",
             "remoteAccessCIDR": "[steps('AzureInfrastructureConfig').remoteAccessCIDR]",
             "virtualMachineSize": "[steps('AzureInfrastructureConfig').virtualMachineSize]",
+            "netAppServiceLevel": "[steps('AzureInfrastructureConfig').netAppServiceLevel]",
             "sslCertificateSecretData": "[steps('AzureInfrastructureConfig').sslCertificateSecretData]",
 
             "aksClusterKubernetesVersion": "[steps('KubernetesConfig').aksClusterKubernetesVersion]",
@@ -525,7 +524,7 @@
             "PodCPUSize": "[steps('KubernetesConfig').PodCPUSize]",
             "PodMemorySize": "[steps('KubernetesConfig').PodMemorySize]",
             "PersistentVolumeSize": "[steps('KubernetesConfig').PersistentVolumeSize]",
-            "netAppServiceLevel": "[steps('KubernetesConfig').netAppServiceLevel]",
+            
   
 
 
