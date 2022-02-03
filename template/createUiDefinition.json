@@ -266,14 +266,33 @@
                             "required": true
                         }
                     },
+                    
                     {
                         "name": "aksNodePoolAvailabilityZones",
-                        "type": "Microsoft.Common.TextBox",
-                 
+                        "type": "Microsoft.Common.DropDown",
+                        "multiselect": true,
+                        "selectAll": true,
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the system node pool. Requirese the use of VirtualMachineScaleSets as node pool type.",
                         "defaultValue": "[]",
                         "constraints": {
+                             "allowedValues": [
+                                    {
+                                     "label": "1",
+                                     "description": "The value to select for option 1.",
+                                      "value": "1"
+                                    },
+                                    {
+                                    "label": "2",
+                                    "description": "The value to select for option 2.",
+                                    "value": "2"
+                                    },
+                                    {
+                                    "label": "3",
+                                    "description": "The value to select for option 2.",
+                                    "value": "3"
+                                    }
+                                ],
                             "required": true
                         }
                     },
