@@ -274,7 +274,7 @@
                         "selectAll": false,
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the system node pool. Requirese the use of VirtualMachineScaleSets as node pool type.",
-                        "defaultValue": "[]",
+                        "defaultValue": [],
                         "constraints": {
                                    "allowedValues": [
                                     {
