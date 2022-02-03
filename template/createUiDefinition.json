@@ -276,6 +276,7 @@
                         "toolTip": "Specifies the availability zones for the agent nodes in the system node pool. Requirese the use of VirtualMachineScaleSets as node pool type.",
                         "defaultValue": "[]",
                         "constraints": {
+                                   "allowedValues": [
                                     {
                                      "label": "1",
                                      "description": "The value to select for option 1.",
@@ -291,8 +292,8 @@
                                     "description": "The value to select for option 2.",
                                     "value": "3"
                                     }
-                                ],
-                            "required": true
+                                ]
+                            
                         }
                     },
                     {
