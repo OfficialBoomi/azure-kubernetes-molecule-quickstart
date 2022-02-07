@@ -278,7 +278,7 @@
                         "selectAll": false,
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
-                        "defaultValue": "[array('1')]",
+                        "defaultValue": "1",
                         "constraints": {
                                    "allowedValues": [
                                     {
@@ -537,7 +537,7 @@
             "aksClusterDnsServiceIP": "[steps('KubernetesConfig').aksClusterDnsServiceIP]",
             "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
             "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
-            "aksNodePoolAvailabilityZones": "[steps('KubernetesConfig').aksNodePoolAvailabilityZones]",
+            "aksNodePoolAvailabilityZones": "[array([steps('KubernetesConfig').aksNodePoolAvailabilityZones])]",
             "systemNodePoolAgentCount": "[steps('KubernetesConfig').systemNodePoolAgentCount]",
             "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
             "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
