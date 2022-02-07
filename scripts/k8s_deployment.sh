@@ -374,9 +374,82 @@ spec:
           value: "com.boomi.container.debug=true"
 EOF
 
+cat >/tmp/namespace.yaml <<EOF
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aks-boomi-molecule
+  labels:
+    name: aks-boomi-molecule
+EOF
+
+cat >/tmp/services.yaml <<EOF
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: molecule-service
+  labels:
+    app: molecule
+spec:
+  selector:
+    app: molecule
+  ports:
+  - protocol: TCP
+    port: 9090
+    targetPort: 9090
+EOF
+
+cat >/tmp/hpa.yaml <<EOF
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: molecule-hpa
+  labels:
+    app: molecule
+spec:
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 30
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 30
+      - type: Pods
+        value: 10
+        periodSeconds: 15
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 30
+        periodSeconds: 30
+      - type: Pods
+        value: 10
+        periodSeconds: 15
+      selectPolicy: Max
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: molecule
+  minReplicas: 3
+  maxReplicas: 200
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
+EOF
+
+
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/namespace.yaml --kubeconfig=/root/.kube/config
+kubectl apply -f /tmp/namespace.yaml --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/secrets.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
@@ -391,13 +464,11 @@ else
 kubectl apply -f /tmp/statefulset_password.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 fi
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f /tmp/services.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f /tmp/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 sleep 120
-
-#kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
