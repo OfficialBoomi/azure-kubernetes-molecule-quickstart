@@ -274,11 +274,12 @@
                     {
                         "name": "aksNodePoolAvailabilityZones",
                         "type": "Microsoft.Common.DropDown",
+                        "placeholder": "",
                         "multiselect": true,
                         "selectAll": false,
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
-                        "placeholder": "",
+                       
                         "constraints": {
                                    "allowedValues": [
                                     {
