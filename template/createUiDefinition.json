@@ -274,7 +274,7 @@
                     {
                         "name": "aksNodePoolAvailabilityZones",
                         "type": "Microsoft.Common.DropDown",
-                        "placeholder": "1,2,3",
+               
                         "multiselect": true,
                         "selectAll": false,
                         "label": "AKS Node Pool Availability Zones",
