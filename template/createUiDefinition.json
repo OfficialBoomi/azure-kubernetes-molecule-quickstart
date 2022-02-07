@@ -537,7 +537,7 @@
             "aksClusterDnsServiceIP": "[steps('KubernetesConfig').aksClusterDnsServiceIP]",
             "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
             "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
-            "aksNodePoolAvailabilityZones": "[string([steps('KubernetesConfig').aksNodePoolAvailabilityZones])]",
+            "aksNodePoolAvailabilityZones": "[steps('KubernetesConfig').aksNodePoolAvailabilityZones]",
             "systemNodePoolAgentCount": "[steps('KubernetesConfig').systemNodePoolAgentCount]",
             "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
             "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
