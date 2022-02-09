@@ -26,7 +26,7 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template
 
 # Boomi AKS Quickstart Architectures
 
-![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/Development/images/AKS.png)
+![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/Development/images/AKS-Architecture.png)
 
 ## Azure Resources Required
 1. Managed Identity(User Assigned Identities)
