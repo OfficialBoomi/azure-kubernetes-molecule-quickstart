@@ -192,11 +192,17 @@
         }
       },
       "aksNodePoolAvailabilityZones": {
-        "defaultValue": ["1","2","3"],
+        "defaultValue": ["1"],
         "type": "array",
+        "allowedValues": [
+          "1",
+          "2",
+          "3"
+        ],
         "metadata": {
           "description": "Specifies the availability zones for the agent nodes in the system node pool. Requirese the use of VirtualMachineScaleSets as node pool type."
         }
+         
       },
       "userNodePoolAgentCount": {
         "defaultValue": 3,
