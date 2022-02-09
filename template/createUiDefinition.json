@@ -277,21 +277,21 @@
                         "selectAll": false,
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
-                        "defaultValue": [],
+                        "defaultValue": "Zone 1",
                          "constraints": {
                                    "allowedValues": [
                                      {
-                                     "label": "one",
+                                     "label": "Zone 1",
                                      "description": "The value to select for option 1.",
                                       "value": "1"
                                     },
                                     {
-                                    "label": "2",
+                                    "label": "Zone 2",
                                     "description": "The value to select for option 2.",
                                     "value": "2"
                                     },
                                     {
-                                    "label": "3",
+                                    "label": "Zone 3",
                                     "description": "The value to select for option 2.",
                                     "value": "3"
                                     }
