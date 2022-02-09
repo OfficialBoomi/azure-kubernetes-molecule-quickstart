@@ -280,7 +280,23 @@
                         "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
                         "defaultValue": ["1"],
                         "constraints": {
-                                   "allowedValues": ["1","2","3"]                            
+                                   "allowedValues": [
+                                     {
+                                     "label": ["1"],
+                                     "description": "The value to select for option 1.",
+                                      "value": "1"
+                                    },
+                                    {
+                                    "label": ["2"],
+                                    "description": "The value to select for option 2.",
+                                    "value": "2"
+                                    },
+                                    {
+                                    "label": ["3"],
+                                    "description": "The value to select for option 2.",
+                                    "value": "3"
+                                    }
+                                   ]                            
                         }
                     },
                     {
