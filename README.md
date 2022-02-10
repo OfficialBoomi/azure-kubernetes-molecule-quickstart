@@ -1,28 +1,5 @@
 # Boomi AKS Quickstart with ARM Template
 
-## Note: Kindly purge the Azure KeyVault post destroy the Quickstart Infrastructure.
-
-## Step 1: Enable AKS Preview
-
-### Install the extension
-`az extension add -n aks-preview`
-
-### Update the extension to ensure the latest version is installed
-`az extension update -n aks-preview`
-
-## Step 2: Register the AKS-IngressApplicationGatewayAddon feature
-
-`az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
-
-## Step 3: Register for Azure NetApp Files
-
-https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-register
-
-## Step 4: Deploy Azure ARM Template
-
-[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FGanesh-Yeole%2Fquickstart-aks-boomi-molecule%2FDevelopment%2Ftemplate%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FGanesh-Yeole%2Fquickstart-aks-boomi-molecule%2FDevelopment%2Ftemplate%2FcreateUiDefinition.json)
-
-
 # Boomi AKS Quickstart Architectures
 
 ![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/Development/images/AKS-Architecture.png)
@@ -49,3 +26,28 @@ AKS Cluster Recommendation
 | Prod Test     | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
 | **Production**    | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
 | **High Throughput Production**    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
+
+
+## Step 1: Enable AKS Preview
+
+### Install the extension
+`az extension add -n aks-preview`
+
+### Update the extension to ensure the latest version is installed
+`az extension update -n aks-preview`
+
+## Step 2: Register the AKS-IngressApplicationGatewayAddon feature
+
+`az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
+
+## Step 3: Register for Azure NetApp Files
+
+https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-register
+
+## Step 4: Deploy Azure ARM Template
+
+[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FGanesh-Yeole%2Fquickstart-aks-boomi-molecule%2FDevelopment%2Ftemplate%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FGanesh-Yeole%2Fquickstart-aks-boomi-molecule%2FDevelopment%2Ftemplate%2FcreateUiDefinition.json)
+
+
+
+## Note: Azure keeps deleted key vaults for 3 months so Kindly purge the Azure KeyVault post delete the Quickstart Infrastructure to avoid naming conflict issues.
