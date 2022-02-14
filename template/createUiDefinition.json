@@ -211,7 +211,7 @@
                     {
                         "name": "systemNodePoolVirtualMachineSize",
                         "type": "Microsoft.Compute.SizeSelector",
-                        "label": "Sytem Node Pool Virtual Machine Size",
+                        "label": "System Node Pool Virtual Machine Size",
                         "toolTip": "Specifies the vm size of nodes in the system node pool.",
                         "recommendedSizes": [
                             "Standard_D4_v4"
@@ -277,7 +277,7 @@
                         "selectAll": false,
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
-                        "defaultValue": "1",
+                        "defaultValue": [],
                          "constraints": {
                                    "allowedValues": [
                                      {
