@@ -25,7 +25,7 @@ https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-reg
 
 # Boomi AKS Quickstart Architectures
 
-![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/main/images/boomi-aks-architecture.jpg)
+![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/main/images/AKS-Architecture.png)
 
 ## Azure Resources Required
 1. Managed Identity(User Assigned Identities)
