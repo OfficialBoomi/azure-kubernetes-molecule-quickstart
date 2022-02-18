@@ -211,7 +211,7 @@
                     {
                         "name": "systemNodePoolVirtualMachineSize",
                         "type": "Microsoft.Compute.SizeSelector",
-                        "label": "Sytem Node Pool Virtual Machine Size",
+                        "label": "System Node Pool Virtual Machine Size",
                         "toolTip": "Specifies the vm size of nodes in the system node pool.",
                         "recommendedSizes": [
                             "Standard_D4_v4"
@@ -269,8 +269,7 @@
                         "constraints": {
                             "required": true
                         }
-                    },
-                    
+                    },              
                     {
                         "name": "aksNodePoolAvailabilityZones",
                         "type": "Microsoft.Common.DropDown",
@@ -279,9 +278,9 @@
                         "label": "AKS Node Pool Availability Zones",
                         "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
                         "defaultValue": "1",
-                        "constraints": {
+                         "constraints": {
                                    "allowedValues": [
-                                    {
+                                     {
                                      "label": "1",
                                      "description": "The value to select for option 1.",
                                       "value": "1"
@@ -296,9 +295,9 @@
                                     "description": "The value to select for option 2.",
                                     "value": "3"
                                     }
-                                ]
-                            
+                                   ]                            
                         }
+                       
                     },
                     {
                         "name": "systemNodePoolAgentCount",
@@ -537,7 +536,9 @@
             "aksClusterDnsServiceIP": "[steps('KubernetesConfig').aksClusterDnsServiceIP]",
             "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
             "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
-            "aksNodePoolAvailabilityZones": "[steps('KubernetesConfig').aksNodePoolAvailabilityZones]",
+
+            "aksNodePoolAvailabilityZones": "[if(equals(steps('KubernetesConfig').aksNodePoolAvailabilityZones, '1'), parse(concat('[\"', steps('KubernetesConfig').aksNodePoolAvailabilityZones,'\"]')), steps('KubernetesConfig').aksNodePoolAvailabilityZones)]",
+            
             "systemNodePoolAgentCount": "[steps('KubernetesConfig').systemNodePoolAgentCount]",
             "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
             "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
