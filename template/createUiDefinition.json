@@ -454,7 +454,10 @@
                         "type": "Microsoft.Common.TextBox",
                         "label": "Boomi User name",
                         "toolTip": "The email account associated with the Boomi account.",
-                        "defaultValue": ""
+                        "defaultValue": "",
+                        "constraints": {
+                            "required": true
+                        }
                         
                     },
                     {
