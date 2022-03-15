@@ -196,7 +196,7 @@ spec:
           service:
             name: molecule-service
             port:
-              number: 9090
+              number: 9093
 EOF
 
 cat >/tmp/statefulset_password.yaml <<EOF
@@ -397,7 +397,7 @@ spec:
     app: molecule
   ports:
   - protocol: TCP
-    port: 9090
+    port: 9093
     targetPort: 9090
 EOF
 
