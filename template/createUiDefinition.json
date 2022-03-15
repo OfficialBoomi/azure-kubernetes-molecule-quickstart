@@ -334,7 +334,7 @@
                         "type": "Microsoft.Common.TextBox",
                         "label": "User Node Pool Max Count",
                         "toolTip": "Specifies the maximum number of nodes for auto-scaling for the user node pool.",
-                        "defaultValue": "200",
+                        "defaultValue": "10",
                         "constraints": {
                             "required": true
                         }
