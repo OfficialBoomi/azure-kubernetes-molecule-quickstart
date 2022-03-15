@@ -141,7 +141,7 @@
       }
     },
     "userNodePoolMaxCount": {
-      "defaultValue": 200,
+      "defaultValue": 10,
       "type": "int",
       "metadata": {
         "description": "Specifies the maximum number of nodes for auto-scaling for the user node pool."
