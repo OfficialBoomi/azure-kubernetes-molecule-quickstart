@@ -26,6 +26,10 @@ The following ‘az’ commands require you to install the Azure command-line in
 
 `az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
 
+Enter the following command to verify that the Azure Resource Feature has been registered
+
+`az feature show --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
+
 ## Step 3: Register for Azure NetApp Files
 
 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-register
