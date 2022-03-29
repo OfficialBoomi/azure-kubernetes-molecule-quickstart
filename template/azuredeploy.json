@@ -98,6 +98,13 @@
         "description": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr."
       }
     },
+     "aksClusterPodCidr": {
+      "defaultValue": "10.0.128.0/18",
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
+      }
+    },
     "aksClusterDockerBridgeCidr": {
       "defaultValue": "172.17.0.1/16",
       "type": "string",
@@ -351,6 +358,9 @@
           },
           "systemNodePoolVirtualMachineSize": {
             "value": "[parameters('systemNodePoolVirtualMachineSize')]"
+          },
+           "aksClusterPodCidr": {
+            "value": "[parameters('aksClusterPodCidr')]"
           },
           "aksClusterServiceCidr": {
             "value": "[parameters('aksClusterServiceCidr')]"
