@@ -93,6 +93,14 @@
           "description": "Specifies the tags of the AKS cluster."
         }
       },
+        
+       "aksClusterPodCidr": {
+        "defaultValue": "10.0.20.0/22",
+        "type": "string",
+        "metadata": {
+          "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
+        }
+      },
         "aksClusterServiceCidr": {
         "defaultValue": "10.0.24.0/24",
         "type": "string",
@@ -1221,7 +1229,7 @@
                 }
               ]
             },
-           /* "podCidr": "[parameters('aksClusterPodCidr')]",*/
+            "podCidr": "[parameters('aksClusterPodCidr')]",
             "serviceCidr": "[parameters('aksClusterServiceCidr')]",
             "dnsServiceIP": "[parameters('aksClusterDnsServiceIP')]",
             "dockerBridgeCidr": "[parameters('aksClusterDockerBridgeCidr')]"
