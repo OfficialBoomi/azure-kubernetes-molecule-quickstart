@@ -93,13 +93,6 @@
           "description": "Specifies the tags of the AKS cluster."
         }
       },
-      "aksClusterPodCidr": {
-        "defaultValue": "10.0.20.0/22",
-        "type": "string",
-        "metadata": {
-          "description": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used."
-        }
-      },
       "aksClusterServiceCidr": {
         "defaultValue": "10.0.24.0/24",
         "type": "string",
@@ -170,13 +163,6 @@
           "description": "Specifies the maximum number of nodes for auto-scaling for the system node pool."
         }
       },
-      "systemNodePoolMaxPods": {
-        "defaultValue": 30,
-        "type": "int",
-        "metadata": {
-          "description": "Specifies the maximum number of pods that can run on a node in the system node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
-        }
-      },
       "systemNodePoolNodeLabels": {
         "defaultValue": {},
         "type": "object",
@@ -217,13 +203,6 @@
         "type": "int",
         "metadata": {
           "description": "Specifies the maximum number of nodes for auto-scaling for the user node pool."
-        }
-      },
-      "userNodePoolMaxPods": {
-        "defaultValue": 15,
-        "type": "int",
-        "metadata": {
-          "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
         }
       },
       "userNodePoolNodeLabels": {
