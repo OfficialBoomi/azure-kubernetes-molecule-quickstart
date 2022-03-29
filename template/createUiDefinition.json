@@ -251,16 +251,6 @@
                         }
                     },
                     {
-                        "name": "aksClusterPodCidr",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "AKS Cluster Pod Cidr",
-                        "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
-                        "defaultValue": "10.0.128.0/18",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
-                    {
                         "name": "aksClusterDockerBridgeCidr",
                         "type": "Microsoft.Common.TextBox",
                         "label": "AKS Cluster Docker Bridge Cidr",
@@ -335,16 +325,6 @@
                         "label": "User Node Pool Max Count",
                         "toolTip": "Specifies the maximum number of nodes for auto-scaling for the user node pool.",
                         "defaultValue": "10",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
-                    {
-                        "name": "userNodePoolMaxPods",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "User Node Pool Max Pods",
-                        "toolTip": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment.",
-                        "defaultValue": "30",
                         "constraints": {
                             "required": true
                         }
@@ -537,7 +517,6 @@
             "userNodePoolVirtualMachineSize": "[steps('KubernetesConfig').userNodePoolVirtualMachineSize]",
             "aksClusterServiceCidr": "[steps('KubernetesConfig').aksClusterServiceCidr]",
             "aksClusterDnsServiceIP": "[steps('KubernetesConfig').aksClusterDnsServiceIP]",
-            "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
             "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
 
             "aksNodePoolAvailabilityZones": "[if(equals(steps('KubernetesConfig').aksNodePoolAvailabilityZones, '1'), parse(concat('[\"', steps('KubernetesConfig').aksNodePoolAvailabilityZones,'\"]')), steps('KubernetesConfig').aksNodePoolAvailabilityZones)]",
@@ -546,7 +525,7 @@
             "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
             "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
             "userNodePoolMaxCount": "[steps('KubernetesConfig').userNodePoolMaxCount]",
-            "userNodePoolMaxPods": "[steps('KubernetesConfig').userNodePoolMaxPods]",
+           
             "PodCPUSize": "[steps('KubernetesConfig').PodCPUSize]",
             "PodMemorySize": "[steps('KubernetesConfig').PodMemorySize]",
             "PersistentVolumeSize": "[steps('KubernetesConfig').PersistentVolumeSize]",
