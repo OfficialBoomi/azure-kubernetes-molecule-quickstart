@@ -152,13 +152,6 @@
         "description": "Specifies the maximum number of nodes for auto-scaling for the user node pool."
       }
     },
-    "userNodePoolMaxPods": {
-      "defaultValue": 30,
-      "type": "int",
-      "metadata": {
-        "description": "Specifies the maximum number of pods that can run on a node in the user node pool. The maximum number of pods per node in an AKS cluster is 250. The default maximum number of pods per node varies between kubenet and Azure CNI networking, and the method of cluster deployment."
-      }
-    },
      "PodCPUSize": {
       "defaultValue": "1000m",
       "type": "string",
@@ -328,9 +321,6 @@
           },
           "userNodePoolVirtualMachineSize": {
             "value": "[parameters('userNodePoolVirtualMachineSize')]"
-          },
-          "userNodePoolMaxPods": {
-            "value": "[parameters('userNodePoolMaxPods')]"
           },
           "userNodePoolMaxCount": {
             "value": "[parameters('userNodePoolMaxCount')]"
