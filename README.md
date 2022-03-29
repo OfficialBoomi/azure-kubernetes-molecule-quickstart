@@ -16,9 +16,10 @@ AKS Cluster Recommendation
 | **Production**    | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
 | **High Throughput Production**    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
 
-The following ‘az’ commands require you to install the Azure command-line interface (CLI) on your personal computer, or you can use https://shell.azure.com/.
 
 ## Step 1: Enable AKS Preview
+
+The following ‘az’ commands require you to install the Azure command-line interface (CLI) on your personal computer, or you can use https://shell.azure.com/.
 
 ### Install the extension
 `az extension add -n aks-preview`
