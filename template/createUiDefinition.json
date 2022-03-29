@@ -251,6 +251,16 @@
                         }
                     },
                     {
+                        "name": "aksClusterPodCidr",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Cluster Pod Cidr",
+                        "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
+                        "defaultValue": "10.0.128.0/18",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
                         "name": "aksClusterDockerBridgeCidr",
                         "type": "Microsoft.Common.TextBox",
                         "label": "AKS Cluster Docker Bridge Cidr",
@@ -517,6 +527,7 @@
             "userNodePoolVirtualMachineSize": "[steps('KubernetesConfig').userNodePoolVirtualMachineSize]",
             "aksClusterServiceCidr": "[steps('KubernetesConfig').aksClusterServiceCidr]",
             "aksClusterDnsServiceIP": "[steps('KubernetesConfig').aksClusterDnsServiceIP]",
+            "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
             "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
 
             "aksNodePoolAvailabilityZones": "[if(equals(steps('KubernetesConfig').aksNodePoolAvailabilityZones, '1'), parse(concat('[\"', steps('KubernetesConfig').aksNodePoolAvailabilityZones,'\"]')), steps('KubernetesConfig').aksNodePoolAvailabilityZones)]",
