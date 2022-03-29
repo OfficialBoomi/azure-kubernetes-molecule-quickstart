@@ -9,9 +9,7 @@ AKS Cluster Recommendation
 | Environment   | AKS VM Size      | vCPU | Memory: GiB   | No. of System Node   | No. of user Node   |
 | ------------- | ---------------- | ---- | ------------- | -------------------- | ------------------ |
 | Development   | Standard_D4_v4   | 4    | 16            | 1                    | 1                  |
-| Development   | Standard_D4_v4   | 4    | 16            | 2                    | 2                  |
-| Dev Test      | Standard_D4_v4   | 4    | 16            | 2                    | 2                  |
-| Prod Test     | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
+| Test     | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
 | **Production**    | Standard_D16_v4  | 16   | 64            | 2                    | 3                  |
 | **High Throughput Production**    | Standard_D32_v4  | 32   | 128           | 2                    | 3                  |
 
