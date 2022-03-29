@@ -15,7 +15,7 @@ AKS Cluster Recommendation
 
 
 ## Step 1: Enable AKS Preview
-
+The following ‘az’ commands require you to install the Azure command-line interface (CLI) on your personal computer, or you can use https://shell.azure.com/.
 ### Install the extension
 `az extension add -n aks-preview`
 
