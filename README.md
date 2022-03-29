@@ -31,8 +31,8 @@ The following ‘az’ commands require you to install the Azure command-line in
 
 `az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
 
-## Step 3: Register for Azure NetApp Files
-
+## Step 3: Register for Azure NetApp files
+Follow the 7 steps from below link to register for NetApp files
 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-register
 
 ## Step 4: Deploy Azure ARM Template
