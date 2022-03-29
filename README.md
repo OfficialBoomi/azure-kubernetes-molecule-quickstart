@@ -40,5 +40,4 @@ https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-reg
 
 
 
-
-## Note: If you delete the resources created by the quickstart template, you should be aware that Azure keeps deleted key vaults for 3 months. You should purge the Azure KeyVault to avoid a naming conflict should you run the quickstart again.
+`Note: If you delete the resources created by the quickstart template, you should be aware that Azure keeps deleted key vaults for 3 months. You should purge the Azure KeyVault to avoid a naming conflict should you run the quickstart again.`
