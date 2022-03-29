@@ -4,18 +4,6 @@
 
 ![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/Development/images/AKS-Architecture.png)
 
-## Azure Resources Required
-1. Managed Identity(User Assigned Identities)
-2. Public IP Addresses - 2
-3. Network SecurityGroups - 1
-4. Virtual Networks - 1
-5. NetApp Accounts - 1
-6. KeyVault - 1
-7. Application Gateways - 1
-8. AKS Managed Clusters - 1
-9. Network Interfaces - 1
-10. Virtual Machines - 1
-
 AKS Cluster Recommendation
 
 | Environment   | AKS VM Size      | vCPU | Memory: GiB   | No. of System Node   | No. of user Node   |
@@ -51,4 +39,4 @@ https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-reg
 
 
 
-## Note: Azure keeps deleted key vaults for 3 months so Kindly purge the Azure KeyVault post delete the Quickstart Infrastructure to avoid naming conflict issues.
+## Note: If you delete the resources created by the quickstart template, you should be aware that Azure keeps deleted key vaults for 3 months. You should purge the Azure KeyVault to avoid a naming conflict should you run the quickstart again.
