@@ -1,9 +1,5 @@
 # Boomi AKS Quickstart with ARM Template
 
-# Boomi AKS Quickstart Architectures
-
-![Boomi AKS Architecture](https://github.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/blob/Development/images/AKS-Architecture.png)
-
 AKS Cluster Recommendation
 
 | Environment   | AKS VM Size      | vCPU | Memory: GiB   | No. of System Node   | No. of user Node   |
