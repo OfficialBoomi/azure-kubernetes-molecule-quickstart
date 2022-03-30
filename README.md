@@ -24,7 +24,7 @@ The following ‘az’ commands require you to install the [Azure command-line i
 
 `az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
 
-Enter the following command to verify that the Azure Resource Feature has been registered.(Check registrationState parameter value showing "Registered" in the result).
+Enter the following command to verify that the Azure Resource Feature has been registered.(Check registrationState parameter value is showing "Registered" in the result).
 
 
 `az feature show --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
