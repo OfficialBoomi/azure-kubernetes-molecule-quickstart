@@ -299,16 +299,7 @@
                         }
                        
                     },
-                    {
-                        "name": "systemNodePoolAgentCount",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "System Node Pool Agent Count",
-                        "toolTip": "Specifies the number of agents (VMs) to host docker containers in the system node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.",
-                        "defaultValue": "1",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
+                    
                     {
                         "name": "userNodePoolAgentCount",
                         "type": "Microsoft.Common.TextBox",
@@ -542,7 +533,7 @@
 
             "aksNodePoolAvailabilityZones": "[if(equals(steps('KubernetesConfig').aksNodePoolAvailabilityZones, '1'), parse(concat('[\"', steps('KubernetesConfig').aksNodePoolAvailabilityZones,'\"]')), steps('KubernetesConfig').aksNodePoolAvailabilityZones)]",
             
-            "systemNodePoolAgentCount": "[steps('KubernetesConfig').systemNodePoolAgentCount]",
+   
             "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
             "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
             "userNodePoolMaxCount": "[steps('KubernetesConfig').userNodePoolMaxCount]",
