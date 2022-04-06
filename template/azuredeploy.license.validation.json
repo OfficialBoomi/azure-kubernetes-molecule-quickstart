@@ -77,7 +77,7 @@
             "value": "[parameters('BoomiMFAAPIToken')]"
           }
         ],
-        "primaryScriptUri": "https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/main/scripts/license_validation.sh",
+        "primaryScriptUri": "https://raw.githubusercontent.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/main/scripts/license_validation.sh",
         "cleanupPreference": "Always",
         "retentionInterval": "P1D"
       }
