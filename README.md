@@ -36,6 +36,6 @@ https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-reg
 
 ## Step 4: Deploy Azure ARM Template
 
-[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FGanesh-Yeole%2Fquickstart-aks-boomi-molecule%2Fmain%2Ftemplate%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FGanesh-Yeole%2Fquickstart-aks-boomi-molecule%2Fmain%2Ftemplate%2FcreateUiDefinition.json)
+[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficialBoomi%2Fazure-kubernetes-molecule-quickstart%2Fmain%2Ftemplate%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficialBoomi%2Fazure-kubernetes-molecule-quickstart%2Fmain%2Ftemplate%2FcreateUiDefinition.json)
 
 `Note: If you delete the resources created by the quickstart template, you should be aware that Azure keeps deleted key vaults for 3 months. You should purge the Azure KeyVault to avoid a naming conflict should you run the quickstart again.`
