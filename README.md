@@ -1,4 +1,4 @@
-# Boomi AKS Quickstart with ARM Template
+# Azure Kubernetes Molecule Quickstart ARM Template
 
 AKS Cluster Recommendation
 
