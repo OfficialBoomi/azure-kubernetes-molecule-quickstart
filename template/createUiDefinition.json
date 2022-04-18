@@ -212,7 +212,7 @@
                         "name": "systemNodePoolVirtualMachineSize",
                         "type": "Microsoft.Compute.SizeSelector",
                         "label": "System Node Pool Virtual Machine Size",
-                        "toolTip": "Specifies the vm size of nodes in the system node pool.",
+                        "toolTip": "Specifies the vm size of nodes in the system node pool.AKS requires nodes to use VM sizes with at least 2 CPUs.",
                         "recommendedSizes": [
                             "Standard_D4_v4"
                         ],
@@ -223,7 +223,7 @@
                         "name": "userNodePoolVirtualMachineSize",
                         "type": "Microsoft.Compute.SizeSelector",
                         "label": "User Node Pool Virtual Machine Size",
-                        "toolTip": "Specifies the vm size of nodes in the user node pool.",
+                        "toolTip": "Specifies the vm size of nodes in the user node pool.AKS requires nodes to use VM sizes with at least 2 CPUs.",
                         "recommendedSizes": [
                             "Standard_D4_v4"
                         ],
