@@ -3,6 +3,8 @@
 ## [View Deployment Guide](https://docs.google.com/viewer?url=https://github.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/files/8506383/Azure.Kubernetes.Molecule.Quickstart.-.Deployment.Guide.pdf)
 
 <a href="http://www.cnn.com" target="_blank">http://www.cnn.com</a>
+<a href="http://example.com" target="_blank"></a>
+<a href="http://example.com">http://example.com</a>
 
 AKS Cluster Recommendation
 
