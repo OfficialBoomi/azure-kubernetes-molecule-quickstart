@@ -1,6 +1,8 @@
 # Azure Kubernetes Molecule Quickstart ARM Template
 
-## [View Deployment Guide](https://docs.google.com/viewer?url=https://github.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/files/8506383/Azure.Kubernetes.Molecule.Quickstart.-.Deployment.Guide.pdf){:target="_blank"}
+## [View Deployment Guide](https://docs.google.com/viewer?url=https://github.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/files/8506383/Azure.Kubernetes.Molecule.Quickstart.-.Deployment.Guide.pdf)
+
+<a href="http://www.cnn.com" target="_blank">http://www.cnn.com</a>
 
 AKS Cluster Recommendation
 
