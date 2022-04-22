@@ -2,8 +2,6 @@
 
 ## [View Deployment Guide](https://docs.google.com/viewer?url=https://github.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/files/8506383/Azure.Kubernetes.Molecule.Quickstart.-.Deployment.Guide.pdf)
 
-[go](http://stackoverflow.com){:target="_blank" rel="noopener"}
-
 
 AKS Cluster Recommendation
 
