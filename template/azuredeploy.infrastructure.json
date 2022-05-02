@@ -384,8 +384,6 @@
   
       "applicationGatewayContributorRoleAssignmentName": "[guid(concat(variables('deploymentName'), '-applicationGatewayContributorRoleAssignment'))]",
   
-      "aksLoadBalancerPublicIpAddressName": "[concat(variables('deploymentName'), '-aksLoadBalancerPublicIp')]",
-      "aksLoadBalancerPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('aksLoadBalancerPublicIpAddressName'))]",
   
       "natGatewayPublicIpAddressName": "[concat(variables('deploymentName'), '-natGatewayPublicIp')]",
       "natGatewayPublicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natGatewayPublicIpAddressName'))]",
@@ -570,20 +568,6 @@
         "type": "Microsoft.Network/publicIPAddresses",
         "name": "[variables('virtualMachinePublicIpAddressName')]",
         "apiVersion": "2020-07-01",
-        "location": "[resourceGroup().location]",
-        "sku": {
-          "name": "Standard"
-        },
-        "properties": {
-          "publicIPAddressVersion": "IPv4",
-          "publicIPAllocationMethod": "Static",
-          "idleTimeoutInMinutes": 30
-        }
-      },
-      {
-        "type": "Microsoft.Network/publicIPAddresses",
-        "apiVersion": "2020-07-01",
-        "name": "[variables('aksLoadBalancerPublicIpAddressName')]",
         "location": "[resourceGroup().location]",
         "sku": {
           "name": "Standard"
