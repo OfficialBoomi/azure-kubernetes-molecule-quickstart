@@ -1,6 +1,6 @@
 # Boomi AKS Molecule Quickstart ARM Template
 
-## [View Deployment Guide](https://docs.google.com/viewer?url=https://github.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/files/8506383/Azure.Kubernetes.Molecule.Quickstart.-.Deployment.Guide.pdf)
+## [View Deployment Guide](https://docs.google.com/viewer?url=https://github.com/OfficialBoomi/azure-kubernetes-molecule-quickstart/files/8641742/Azure.Kubernetes.Molecule.Quickstart.-.Deployment.Guide.pdf)
 
 
 AKS Cluster Recommendation
