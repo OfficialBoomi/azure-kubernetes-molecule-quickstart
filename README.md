@@ -24,6 +24,7 @@ The following ‘az’ commands require you to install the [Azure command-line i
 `az extension update -n aks-preview`
 
 ## Step 2: Register the AKS-IngressApplicationGatewayAddon feature
+To run the following commands login to azure portal and open cloud shell or you can use https://shell.azure.com/ if you are already logged in to azure portal.
 
 `az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
 
@@ -42,3 +43,9 @@ https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-reg
 [![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficialBoomi%2Fazure-kubernetes-molecule-quickstart%2Fmain%2Ftemplate%2Fazuredeploy.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficialBoomi%2Fazure-kubernetes-molecule-quickstart%2Fmain%2Ftemplate%2FcreateUiDefinition.json)
 
 `Note: If you delete the resources created by the quickstart template, you should be aware that Azure keeps deleted key vaults for 3 months. You should purge the Azure KeyVault to avoid a naming conflict should you run the quickstart again.`
+Please follow below steps to purge deleted key vaults.
+1. Login to azure portal
+2. Go to key vaults service
+3. Open 'Manage deleted vaults'
+4. Select subscription and then select key vault to be purged
+5. Click purge button and it will purge selected key vault
