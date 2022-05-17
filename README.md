@@ -15,7 +15,7 @@ AKS Cluster Recommendation
 
 ## Step 1: Enable AKS Preview
 
-The following ‘az’ commands require you to install the [Azure command-line interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/) on your personal computer (and authenticate with the 'az login' command), or you can use https://shell.azure.com.
+The ‘az’ commands in these steps require you to install the [Azure command-line interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/) on your personal computer (and authenticate with the 'az login' command), or you can use https://shell.azure.com.
 
 ### Install the extension
 `az extension add -n aks-preview`
@@ -24,12 +24,10 @@ The following ‘az’ commands require you to install the [Azure command-line i
 `az extension update -n aks-preview`
 
 ## Step 2: Register the AKS-IngressApplicationGatewayAddon feature
-To run the following commands login to azure portal and open cloud shell or you can use https://shell.azure.com/ if you are already logged in to azure portal.
 
 `az feature register --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
 
 Enter the following command to verify that the Azure Resource Feature has been registered.(Check registrationState parameter value is showing "Registered" in the result).
-
 
 `az feature show --name AKS-IngressApplicationGatewayAddon --namespace Microsoft.ContainerService`
 
