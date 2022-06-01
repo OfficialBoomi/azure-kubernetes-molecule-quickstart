@@ -255,7 +255,7 @@
                         "type": "Microsoft.Common.TextBox",
                         "label": "AKS Cluster Pod Cidr",
                         "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
-                        "defaultValue": "10.0.128.0/18",
+                        "defaultValue": "10.0.0.0/18",
                         "constraints": {
                             "required": true
                         }
