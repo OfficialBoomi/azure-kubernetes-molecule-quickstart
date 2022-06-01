@@ -461,11 +461,11 @@
                             "name": "BoomiMFAAPIToken",
                             "type": "Microsoft.Common.PasswordBox",
                             "label": {
-                                "password": "Boomi API Token",
+                                "password": "Boomi AtomSphere API Token",
                                 "confirmPassword": "Confirm Boomi MFA Install Token"
                      
                             },
-                            "toolTip": "Boomi token needed when authentication type is Token",
+                            "toolTip": "Boomi AtomSphere API token needed when authentication type is Token",
                             "options": {
                                 "hideConfirmation": true
                             }
