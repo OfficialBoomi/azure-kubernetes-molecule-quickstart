@@ -148,7 +148,7 @@
                             "confirmPassword": "Confirm Application Gateway SSL Certificate Data"
                  
                         },
-                        "toolTip": "Specifies PFX format ssl certificate encoded data",
+                        "toolTip": "Specifies PFX format ssl certificate base64 encoded key data. This ssl certificate will be attached to application gateway",
                             
                          "options": {
                          "hideConfirmation": true
