@@ -462,7 +462,7 @@
       "aksClusterName": "[concat(variables('deploymentName'), '-askCluster')]",
       "aksClusterId": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
   
-      "nrg": "[concat('MC_',variables('deploymentName'))]",
+      "nrg": "[take(concat('MC_',variables('deploymentName'), '-keyVault'), 80)]",
         
       "aksClusterDnsPrefix": "[concat(variables('deploymentName'), '-ask')]",
   
