@@ -436,7 +436,7 @@ spec:
     kind: StatefulSet
     name: molecule
   minReplicas: 3
-  maxReplicas: 200
+  maxReplicas: 20
   metrics:
   - type: Resource
     resource:
