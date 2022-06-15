@@ -218,7 +218,7 @@ spec:
       labels:
         app: molecule
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 900
       volumes:
         - name: molecule-storage
           persistentVolumeClaim:
@@ -308,7 +308,7 @@ spec:
       labels:
         app: molecule
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 900
       volumes:
         - name: molecule-storage
           persistentVolumeClaim:
