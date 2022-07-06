@@ -785,7 +785,7 @@
                 "cifs": false,
                 "nfsv3": true,
                 "nfsv41": false,
-                "chownMode": "Unrestricted",
+                "chownMode": "Restricted",
                 "allowedClients": "[parameters('virtualNetworkAddressPrefixes')]"
               }
             ]
