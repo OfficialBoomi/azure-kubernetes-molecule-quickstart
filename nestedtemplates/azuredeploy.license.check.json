@@ -267,7 +267,7 @@
     }
   },
   "variables": {
-        "nestedtemplateUri": "[uri(parameters('_artifactsLocation'), concat('template/azuredeploy.infrastructure.json'))]"
+        "nestedtemplateUri": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/azuredeploy.infrastructure.json'))]"
    },
   "resources": [
     {
