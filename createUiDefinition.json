@@ -1,0 +1,536 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {   
+        "basics": [
+            
+            {
+                "name": "virtualMachineAdminUsername",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Username",
+                "toolTip": "Specifies the name of the administrator account of the virtual machine.",
+                "constraints": {
+                    "required": true
+                }
+            },
+            {
+                "name": "virtualMachineAdminPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Password",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Specifies the password of the administrator account of the virtual machine.",               
+                "constraints": {
+                    "required": true,
+                    "regex": "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])|(?=.*[0-9])(?=.*[a-z])(?=.*[!@#$%^&*])|(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])).{6,72}$",
+                    "validationMessage": "Password must be at least 6 characters long and have 3 out of the following: one number, one lower case, one upper case, or one special character"
+             
+                },
+                "options": {
+                    "hideConfirmation": false
+                }
+            }
+            
+        ],
+        "steps": [
+            {
+                "name": "AzureInfrastructureConfig",
+                "label": "Azure Infrastructure",
+                "subLabel": {
+                    "preValidation": "Configure the azure resources and settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Azure Infrastructure",
+                "elements": [
+                    {
+                        "name": "virtualNetworkAddressPrefixes",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Virtual Network Address Prefixes",
+                        "toolTip": "Specifies the address prefixes of the virtual network.",
+                        "defaultValue": "10.0.0.0/16",
+                        "constraints": {
+                            "required": true
+                                }
+                    },
+                    {
+                        "name": "aksSubnetAddressPrefix",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Subnet Address Prefix",
+                        "toolTip": "Specifies the address prefix of the subnet hosting the system node pool of the AKS cluster",
+                        "defaultValue": "10.0.0.0/18",
+                        "constraints": {
+                            "required": true
+                                }
+                    },
+                    {
+                        "name": "applicationGatewaySubnetAddressPrefix",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Application Gateway Subnet Address Prefix",
+                        "toolTip": "Specifies the address prefix of the subnet which contains the Application Gateway.",
+                        "defaultValue": "10.0.64.0/24",
+                        "constraints": {
+                            "required": true
+                                }
+                    },
+                    {
+                        "name": "virtualMachineSubnetAddressPrefix",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Virtual Machine Subnet Address Prefix",
+                        "toolTip": "Specifies the address prefix of the subnet which contains the virtual machine.",
+                        "defaultValue": "10.0.65.0/24",
+                        "constraints": {
+                            "required": true
+                                }
+                    },
+                    {
+                        "name": "netAppFileSubnetAddressPrefix",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "NetApp File Subnet Address Prefix",
+                        "toolTip": "Specifies the NetApp File subnet IP prefix. This prefix must be within vnet IP prefix address space.",
+                        "defaultValue": "10.0.66.0/24",
+                        "constraints": {
+                            "required": true
+                                }
+                    },
+                    {
+                        "name": "remoteAccessCIDR",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Remote Access CIDR",
+                        "toolTip": "The CIDR IP range that is permitted to access the bastion instances. We recommend that you set this value to a trusted IP range.",
+                        "defaultValue": "0.0.0.0/0",
+                        "constraints": {
+                            "required": true
+                                }
+                    },
+                    {
+                        "name": "virtualMachineSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "Virtual machine size",
+                        "toolTip": "Virtual machine size for bastion host",
+                        "recommendedSizes": [
+                            "Standard_DS1_v2"
+                        ],
+                        "osPlatform": "Linux",
+                        "count": "1"
+                    },
+                    {
+                        "name": "netAppServiceLevel",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Net App Service Level",
+                        "toolTip": "Target performance for the capacity pool. Service level: Ultra, Premium, or Standard.",
+                        "defaultValue": "Premium",
+                        "constraints": {
+                        "allowedValues": [
+                        {
+                            "label": "Premium", 
+                            "value": "Premium"
+                        },
+                        {
+                            "label": "Ultra", 
+                            "value": "Ultra"
+                        },
+                        {
+                            "label": "Standard", 
+                            "value": "Standard"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "sslCertificateSecretData",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": {
+                            "password": "Application Gateway SSL Certificate Data",
+                            "confirmPassword": "Confirm Application Gateway SSL Certificate Data"
+                 
+                        },
+                        "toolTip": "Specifies PFX format ssl certificate base64 encoded key data. This ssl certificate will be attached to application gateway",
+                            
+                         "options": {
+                         "hideConfirmation": true
+                                },
+                        "constraints": {
+                            "required": true
+                                }
+                        
+                    }
+                    
+                ]            
+            },
+            {
+                "name": "KubernetesConfig",
+                "label": "Kubernetes",
+                "subLabel": {
+                    "preValidation": "Configure the virtual machine's resources and settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Kubernetes",
+                "elements": [
+                    {
+                        "name": "aksClusterKubernetesVersion",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Cluster Kubernetes Version",
+                        "toolTip": "Specifies the version of Kubernetes specified when creating the managed cluster.",
+                        "defaultValue": "1.21.7",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "aksClusterEnablePrivateCluster",
+                        "type": "Microsoft.Common.CheckBox",
+                        "label": "AKS Cluster Enable Private Cluster",
+                        "toolTip": "Check create the cluster as a private cluster or not."
+                                            
+                    },   
+                    {
+                        "name": "aksClusterSkuTier",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "AKS Cluster Sku Tier",
+                        "toolTip": "Specifies the tier of a managed cluster SKU: Paid or Free",
+                        "defaultValue": "Paid",
+                        "constraints": {
+                        "allowedValues": [
+                        {
+                            "label": "Paid", 
+                            "value": "Paid"
+                        },
+                        {
+                            "label": "Free", 
+                            "value": "Free"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    },   
+                    {
+                        "name": "systemNodePoolVirtualMachineSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "System Node Pool Virtual Machine Size",
+                        "toolTip": "Specifies the vm size of nodes in the system node pool.AKS requires nodes to use VM sizes with at least 2 CPUs",
+                        "recommendedSizes": [
+                            "Standard_D4_v4"
+                        ],
+                        "osPlatform": "Linux",
+                        "count": "1"
+                    },
+                    {
+                        "name": "userNodePoolVirtualMachineSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "User Node Pool Virtual Machine Size",
+                        "toolTip": "Specifies the vm size of nodes in the user node pool.AKS requires nodes to use VM sizes with at least 2 CPUs",
+                        "recommendedSizes": [
+                            "Standard_D4_v4"
+                        ],
+                        "osPlatform": "Linux",
+                        "count": "1"
+                    },
+                    {
+                        "name": "aksClusterServiceCidr",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Cluster Service Cidr",
+                        "toolTip": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.",
+                        "defaultValue": "10.0.67.0/24",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "aksClusterDnsServiceIP",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Cluster Dns Service IP",
+                        "toolTip": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.",
+                        "defaultValue": "10.0.67.10",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "aksClusterPodCidr",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Cluster Pod Cidr",
+                        "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
+                        "defaultValue": "10.0.0.0/18",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "aksClusterDockerBridgeCidr",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "AKS Cluster Docker Bridge Cidr",
+                        "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
+                        "defaultValue": "172.17.0.1/16",
+                        "constraints": {
+                            "required": true
+                        }
+                    },              
+                    {
+                        "name": "aksNodePoolAvailabilityZones",
+                        "type": "Microsoft.Common.DropDown",
+                        "multiselect": true,
+                        "selectAll": false,
+                        "label": "AKS Node Pool Availability Zones",
+                        "toolTip": "Specifies the availability zones for the agent nodes in the node pools.",
+                        "defaultValue": "1",
+                         "constraints": {
+                                   "allowedValues": [
+                                     {
+                                     "label": "1",
+                                     "description": "The value to select for option 1.",
+                                      "value": "1"
+                                    },
+                                    {
+                                    "label": "2",
+                                    "description": "The value to select for option 2.",
+                                    "value": "2"
+                                    },
+                                    {
+                                    "label": "3",
+                                    "description": "The value to select for option 2.",
+                                    "value": "3"
+                                    }
+                                   ]                            
+                        }
+                       
+                    },
+                    
+                    {
+                        "name": "userNodePoolAgentCount",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "User Node Pool Agent Count",
+                        "toolTip": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 3.",
+                        "defaultValue": "3",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "userNodePoolMinCount",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "User Node Pool Min Count",
+                        "toolTip": "Specifies the minimum number of nodes for auto-scaling for the user node pool.",
+                        "defaultValue": "3",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "userNodePoolMaxCount",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "User Node Pool Max Count",
+                        "toolTip": "Specifies the maximum number of nodes for auto-scaling for the user node pool.",
+                        "defaultValue": "10",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "PodCPUSize",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Pod CPU Size",
+                        "toolTip": "Specifies Pod limit CPU Size",
+                        "defaultValue": "1000m",
+                        "constraints": {
+                        "allowedValues": [
+                        {
+                            "label": "1000m", 
+                            "value": "1000m"
+                        },
+                        {
+                            "label": "2000m", 
+                            "value": "2000m"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    },   
+                    {
+                        "name": "PodMemorySize",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Pod Memory Size",
+                        "toolTip": "Specifies Pod limit Memory Size",
+                        "defaultValue": "1024Mi",
+                        "constraints": {
+                        "allowedValues": [
+                        {
+                            "label": "512Mi", 
+                            "value": "512Mi"
+                        },
+                        {
+                            "label": "1024Mi", 
+                            "value": "1024Mi"
+                        },
+                        {
+                            "label": "2064Mi", 
+                            "value": "2064Mi"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    },   
+                    {
+                        "name": "PersistentVolumeSize",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Persistent Volume Size",
+                        "toolTip": "Specifies persistent volume size",
+                        "defaultValue": "250Gi",
+                        "constraints": {
+                        "allowedValues": [
+                        {
+                            "label": "250Gi", 
+                            "value": "250Gi"
+                        },
+                        {
+                            "label": "500Gi", 
+                            "value": "500Gi"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    }
+                ]            
+            },
+            {
+                "name": "BoomiConfig",
+                "label": "Boomi",
+                "subLabel": {
+                    "preValidation": "Configure the boomi settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Boomi",
+                "elements": [
+                    {
+                        "name": "BoomiAuthenticationType",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Boomi Authentication Type",
+                        "toolTip": "Boomi Platform Authentication Type",
+                        "defaultValue": "Token",
+                        "constraints": {
+
+                        "allowedValues": [
+                        {
+                            "label": "Password", 
+                            "value": "Password"
+                        },
+                        {
+                            "label": "Token", 
+                            "value": "Token"
+                        }
+                        
+                    ],
+                            "required": true
+                        }
+                    },                   
+                    {
+                        "name": "BoomiUsername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Boomi User name",
+                        "toolTip": "The email account associated with the Boomi account.",
+                        "constraints": {
+                            "required": true
+                        }
+                        
+                    },
+                    {
+                        
+                        "name": "BoomiPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": {
+                        "password": "Boomi Password",
+                        "confirmPassword": "Boomi Confirm password"
+                            },
+                        "toolTip": "Boomi password needed when authentication type is Password",
+                        "options": {
+                            "hideConfirmation": false
+                        }
+                        
+                        
+                    },
+                    {
+                             
+                            "name": "BoomiMFAAPIToken",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "Boomi AtomSphere API Token",
+                                "confirmPassword": "Confirm Boomi MFA Install Token"
+                     
+                            },
+                            "toolTip": "Boomi AtomSphere API token needed when authentication type is Token",
+                            "options": {
+                                "hideConfirmation": true
+                            }
+                                                 
+                    },
+                    {
+                        "name": "BoomiAccountID",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Boomi Account ID",
+                        "toolTip": "The Boomi account ID that you want to associate with the new Molecule cluster.",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "BoomiMoleculeName",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Boomi Molecule Name",
+                        "toolTip": "The name for the Boomi Molecule cluster.",
+                        "defaultValue": "Boomi_Molecule_AKS",
+                        "constraints": {
+                            "required": true
+                        }
+                    }
+                ]            
+            }
+        ],
+        "outputs":
+         {
+            "location": "[location()]",
+            "virtualMachineAdminUsername": "[basics('virtualMachineAdminUsername')]",
+            "virtualMachineAdminPassword": "[basics('virtualMachineAdminPassword')]",
+            "virtualNetworkAddressPrefixes": "[steps('AzureInfrastructureConfig').virtualNetworkAddressPrefixes]",
+            "aksSubnetAddressPrefix": "[steps('AzureInfrastructureConfig').aksSubnetAddressPrefix]",
+            "applicationGatewaySubnetAddressPrefix": "[steps('AzureInfrastructureConfig').applicationGatewaySubnetAddressPrefix]",
+            "virtualMachineSubnetAddressPrefix": "[steps('AzureInfrastructureConfig').virtualMachineSubnetAddressPrefix]",
+            "netAppFileSubnetAddressPrefix": "[steps('AzureInfrastructureConfig').netAppFileSubnetAddressPrefix]",
+            "remoteAccessCIDR": "[steps('AzureInfrastructureConfig').remoteAccessCIDR]",
+            "virtualMachineSize": "[steps('AzureInfrastructureConfig').virtualMachineSize]",
+            "netAppServiceLevel": "[steps('AzureInfrastructureConfig').netAppServiceLevel]",
+            "sslCertificateSecretData": "[steps('AzureInfrastructureConfig').sslCertificateSecretData]",
+            "aksClusterKubernetesVersion": "[steps('KubernetesConfig').aksClusterKubernetesVersion]",
+            "aksClusterEnablePrivateCluster": "[steps('KubernetesConfig').aksClusterEnablePrivateCluster]",
+            "aksClusterSkuTier": "[steps('KubernetesConfig').aksClusterSkuTier]",
+            "systemNodePoolVirtualMachineSize": "[steps('KubernetesConfig').systemNodePoolVirtualMachineSize]",
+            "userNodePoolVirtualMachineSize": "[steps('KubernetesConfig').userNodePoolVirtualMachineSize]",
+            "aksClusterServiceCidr": "[steps('KubernetesConfig').aksClusterServiceCidr]",
+            "aksClusterDnsServiceIP": "[steps('KubernetesConfig').aksClusterDnsServiceIP]",
+            "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
+            "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
+            "aksNodePoolAvailabilityZones": "[if(equals(steps('KubernetesConfig').aksNodePoolAvailabilityZones, '1'), parse(concat('[\"', steps('KubernetesConfig').aksNodePoolAvailabilityZones,'\"]')), steps('KubernetesConfig').aksNodePoolAvailabilityZones)]",
+            "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
+            "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
+            "userNodePoolMaxCount": "[steps('KubernetesConfig').userNodePoolMaxCount]",
+            "PodCPUSize": "[steps('KubernetesConfig').PodCPUSize]",
+            "PodMemorySize": "[steps('KubernetesConfig').PodMemorySize]",
+            "PersistentVolumeSize": "[steps('KubernetesConfig').PersistentVolumeSize]",
+            "BoomiAuthenticationType": "[steps('BoomiConfig').BoomiAuthenticationType]",
+            "BoomiAccountID": "[steps('BoomiConfig').BoomiAccountID]",
+            "BoomiUsername": "[steps('BoomiConfig').BoomiUsername]",
+            "BoomiPassword": "[steps('BoomiConfig').BoomiPassword]",
+            "BoomiMFAAPIToken": "[steps('BoomiConfig').BoomiMFAAPIToken]",
+            "BoomiMoleculeName": "[steps('BoomiConfig').BoomiMoleculeName]"
+
+
+        }
+        
+    }
+}
