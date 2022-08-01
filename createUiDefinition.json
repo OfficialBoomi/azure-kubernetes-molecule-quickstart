@@ -11,7 +11,10 @@
                 "label": "Username",
                 "toolTip": "Specifies the name of the administrator account of the virtual machine.",
                 "constraints": {
-                    "required": true
+                    "required": true,
+                    "regex": "^(?=[a-zA-Z0-9._]{1,15}$)(?!.*[_.]{2})[^_.].*[^_.]$",
+                    "validationMessage": "Username must be between 1 and 15 characters long and no special characters are allowed"
+
                 }
             },
             {
@@ -24,8 +27,8 @@
                 "toolTip": "Specifies the password of the administrator account of the virtual machine.",               
                 "constraints": {
                     "required": true,
-                    "regex": "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])|(?=.*[0-9])(?=.*[a-z])(?=.*[!@#$%^&*])|(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])).{6,72}$",
-                    "validationMessage": "Password must be at least 6 characters long and have 3 out of the following: one number, one lower case, one upper case, or one special character"
+                    "regex": "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])|(?=.*[0-9])(?=.*[a-z])(?=.*[!@#$%^&*])|(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])).{12,72}$",
+                    "validationMessage": "Password must be at least 12 characters long and have 3 out of the following: one number, one lower case, one upper case, or one special character"
              
                 },
                 "options": {
@@ -51,7 +54,9 @@
                         "toolTip": "Specifies the address prefixes of the virtual network.",
                         "defaultValue": "10.0.0.0/16",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid Virtual Network Address Prefix"
                                 }
                     },
                     {
@@ -61,7 +66,9 @@
                         "toolTip": "Specifies the address prefix of the subnet hosting the system node pool of the AKS cluster",
                         "defaultValue": "10.0.0.0/18",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid AKS Subnet Address Prefix"
                                 }
                     },
                     {
@@ -71,7 +78,9 @@
                         "toolTip": "Specifies the address prefix of the subnet which contains the Application Gateway.",
                         "defaultValue": "10.0.64.0/24",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid Gateway Subnet Address Prefix"
                                 }
                     },
                     {
@@ -81,7 +90,9 @@
                         "toolTip": "Specifies the address prefix of the subnet which contains the virtual machine.",
                         "defaultValue": "10.0.65.0/24",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid Virtual Machine Address Prefix"
                                 }
                     },
                     {
@@ -91,7 +102,9 @@
                         "toolTip": "Specifies the NetApp File subnet IP prefix. This prefix must be within vnet IP prefix address space.",
                         "defaultValue": "10.0.66.0/24",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid NetApp File Subnet Address Prefix"
                                 }
                     },
                     {
@@ -101,7 +114,9 @@
                         "toolTip": "The CIDR IP range that is permitted to access the bastion instances. We recommend that you set this value to a trusted IP range.",
                         "defaultValue": "0.0.0.0/0",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid Remote Access CIDR"
                                 }
                     },
                     {
@@ -142,19 +157,13 @@
                     },
                     {
                         "name": "sslCertificateSecretData",
-                        "type": "Microsoft.Common.PasswordBox",
-                        "label": {
-                            "password": "Application Gateway SSL Certificate Data",
-                            "confirmPassword": "Confirm Application Gateway SSL Certificate Data"
-                 
-                        },
-                        "toolTip": "Specifies PFX format ssl certificate base64 encoded key data. This ssl certificate will be attached to application gateway",
-                            
-                         "options": {
-                         "hideConfirmation": true
-                                },
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Application Gateway SSL Certificate Data",
+                        "toolTip": "Specifies PFX format ssl certificate base64 encoded key data. This ssl certificate will be attached to application gateway",         
                         "constraints": {
-                            "required": true
+                            "required": true,
+                             "regex": "^([A-Za-z\\d+/])",
+                             "validationMessage": "Invalid SSL certificate base64 encoded key data"                           
                                 }
                         
                     }
@@ -175,9 +184,11 @@
                         "type": "Microsoft.Common.TextBox",
                         "label": "AKS Cluster Kubernetes Version",
                         "toolTip": "Specifies the version of Kubernetes specified when creating the managed cluster.",
-                        "defaultValue": "1.21.7",
+                        "defaultValue": "1.21.9",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){2}[0-9]{1,3}$",
+                            "validationMessage": "Invalid Kuberenetes Version"
                         }
                     },
                     {
@@ -237,7 +248,9 @@
                         "toolTip": "A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.",
                         "defaultValue": "10.0.67.0/24",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid AKS Cluster Service CIDR"
                         }
                     },
                     {
@@ -247,7 +260,10 @@
                         "toolTip": "Specifies the IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.",
                         "defaultValue": "10.0.67.10",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}$",
+                            "validationMessage": "Invalid DNS Service IP Address"
+
                         }
                     },
                     {
@@ -257,7 +273,9 @@
                         "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
                         "defaultValue": "10.0.0.0/18",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid AKS Cluster Pod CIDR"
                         }
                     },
                     {
@@ -267,7 +285,9 @@
                         "toolTip": "Specifies the CIDR notation IP range from which to assign pod IPs when kubenet is used.",
                         "defaultValue": "172.17.0.1/16",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+                            "validationMessage": "Invalid AKS Cluster Docker Bridge CIDR"
                         }
                     },              
                     {
@@ -307,7 +327,9 @@
                         "toolTip": "Specifies the number of agents (VMs) to host docker containers in the user node pool. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 3.",
                         "defaultValue": "3",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^[1-9][0-9]?$|^100$",
+                            "validationMessage": "Number of agents should be less than or equal to 100 without leading zeros"
                         }
                     },
                     {
@@ -317,7 +339,9 @@
                         "toolTip": "Specifies the minimum number of nodes for auto-scaling for the user node pool.",
                         "defaultValue": "3",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^(?:[1-9]|[1-9]|10)$",
+                            "validationMessage": "Minimum number of nodes should be less than or equal to 10 without leading zeros"
                         }
                     },
                     {
@@ -327,7 +351,9 @@
                         "toolTip": "Specifies the maximum number of nodes for auto-scaling for the user node pool.",
                         "defaultValue": "10",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^(?:[1-9]|[1-9]|10)$",
+                            "validationMessage": "Maximum number of nodes should be less than or equal to 10 without leading zeros"
                         }
                     },
                     {
@@ -436,7 +462,10 @@
                         "label": "Boomi User name",
                         "toolTip": "The email account associated with the Boomi account.",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^.+@.+$",
+                            "validationMessage": "The AtomSphere user name must be an email address"
+                            
                         }
                         
                     },
@@ -451,23 +480,29 @@
                         "toolTip": "Boomi password needed when authentication type is Password",
                         "options": {
                             "hideConfirmation": false
-                        }
-                        
+                        },
+                        "constraints": {
+                            "required": true
+                        },
+                        "visible": "[if(equals(steps('BoomiConfig').BoomiAuthenticationType,'Password'),true,false)]"
                         
                     },
                     {
-                             
-                            "name": "BoomiMFAAPIToken",
-                            "type": "Microsoft.Common.PasswordBox",
-                            "label": {
-                                "password": "Boomi AtomSphere API Token",
-                                "confirmPassword": "Confirm Boomi MFA Install Token"
+                        "name": "BoomiMFAAPIToken",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": {
+                        "password": "Boomi AtomSphere API Token",
+                        "confirmPassword": "Confirm Boomi AtomSphere API Token"
+                        },
+                        "toolTip": "Boomi token needed when authentication type is Token",
+                        "options": {
+                            "hideConfirmation": false
+                        },
+                        "constraints": {
+                            "required": true
                      
-                            },
-                            "toolTip": "Boomi AtomSphere API token needed when authentication type is Token",
-                            "options": {
-                                "hideConfirmation": true
-                            }
+                        },
+                        "visible": "[if(equals(steps('BoomiConfig').BoomiAuthenticationType,'Token'),true,false)]"
                                                  
                     },
                     {
@@ -476,7 +511,9 @@
                         "label": "Boomi Account ID",
                         "toolTip": "The Boomi account ID that you want to associate with the new Molecule cluster.",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^\\w{1,25}-\\w{6}$",
+                            "validationMessage": "Account ID is not valid. It can be found on the Account Information tab in the Setup page."
                         }
                     },
                     {
@@ -486,7 +523,9 @@
                         "toolTip": "The name for the Boomi Molecule cluster.",
                         "defaultValue": "Boomi_Molecule_AKS",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^.{1,255}$",
+                            "validationMessage": "Molecule name must be between 1 and 255 characters long"
                         }
                     }
                 ]            
@@ -516,9 +555,9 @@
             "aksClusterPodCidr": "[steps('KubernetesConfig').aksClusterPodCidr]",
             "aksClusterDockerBridgeCidr": "[steps('KubernetesConfig').aksClusterDockerBridgeCidr]",
             "aksNodePoolAvailabilityZones": "[if(equals(steps('KubernetesConfig').aksNodePoolAvailabilityZones, '1'), parse(concat('[\"', steps('KubernetesConfig').aksNodePoolAvailabilityZones,'\"]')), steps('KubernetesConfig').aksNodePoolAvailabilityZones)]",
-            "userNodePoolAgentCount": "[steps('KubernetesConfig').userNodePoolAgentCount]",
-            "userNodePoolMinCount": "[steps('KubernetesConfig').userNodePoolMinCount]",
-            "userNodePoolMaxCount": "[steps('KubernetesConfig').userNodePoolMaxCount]",
+            "userNodePoolAgentCount": "[int(steps('KubernetesConfig').userNodePoolAgentCount)]",
+            "userNodePoolMinCount": "[int(steps('KubernetesConfig').userNodePoolMinCount)]",
+            "userNodePoolMaxCount": "[int(steps('KubernetesConfig').userNodePoolMaxCount)]",
             "PodCPUSize": "[steps('KubernetesConfig').PodCPUSize]",
             "PodMemorySize": "[steps('KubernetesConfig').PodMemorySize]",
             "PersistentVolumeSize": "[steps('KubernetesConfig').PersistentVolumeSize]",
