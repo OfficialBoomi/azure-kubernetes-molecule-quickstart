@@ -5,7 +5,7 @@ wget ${LICENSEVALIDATION}
 
 pip install -t . -r ./requirements.txt
 
-if [ $BOOMIAUTHENTICATIONTYPE == "token" ]
+if [ $BOOMIAUTHENTICATIONTYPE == "Token" ]
 then
     result=`python license_validation.py "$MOLECULEACCOUNTID" "BOOMI_TOKEN.$MOLECULEUSERNAME" "$BOOMIMFAAPITOKEN" MOLECULE 60`
 else
