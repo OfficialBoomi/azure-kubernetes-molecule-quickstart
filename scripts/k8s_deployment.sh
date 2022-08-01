@@ -113,7 +113,7 @@ mount -t nfs -o rw,hard,rsize=1048576,wsize=1048576,vers=3,tcp $netAppIP:/$files
 
 chmod -R 777 ~/$fileshare
 
-if [ $boomi_auth == "token" ]
+if [ $boomi_auth == "Token" ]
 then
 cat >/tmp/secrets.yaml <<EOF
 ---
@@ -186,7 +186,6 @@ metadata:
     kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/health-probe-path: "/_admin/status"
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: "$appgw_ssl_cert"
-    #appgw.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
   - http:
@@ -219,7 +218,7 @@ spec:
       labels:
         app: molecule
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 900
       volumes:
         - name: molecule-storage
           persistentVolumeClaim:
@@ -287,7 +286,7 @@ spec:
               name: boomi-secret
               key: password
         - name: CONTAINER_PROPERTIES_OVERRIDES
-          value: "com.boomi.container.debug=true"
+          value: "com.boomi.container.debug=false|com.boomi.deployment.quickstart=true"
 EOF
 
 cat >/tmp/statefulset_token.yaml <<EOF
@@ -309,7 +308,7 @@ spec:
       labels:
         app: molecule
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 900
       volumes:
         - name: molecule-storage
           persistentVolumeClaim:
@@ -372,10 +371,10 @@ spec:
               name: boomi-secret
               key: token
         - name: CONTAINER_PROPERTIES_OVERRIDES
-          value: "com.boomi.container.debug=true"
+          value: "com.boomi.container.debug=false|com.boomi.deployment.quickstart=true"
 EOF
 
-cat >/tmp/namespace.yaml <<EOF 
+cat >/tmp/namespace.yaml <<EOF
 ---
 apiVersion: v1
 kind: Namespace
@@ -383,10 +382,9 @@ metadata:
   name: aks-boomi-molecule
   labels:
     name: aks-boomi-molecule
-
 EOF
 
-cat >/tmp/services.yaml <<EOF 
+cat >/tmp/services.yaml <<EOF
 ---
 apiVersion: v1
 kind: Service
@@ -401,10 +399,9 @@ spec:
   - protocol: TCP
     port: 9093
     targetPort: 9090
-
 EOF
 
-cat >/tmp/hpa.yaml <<EOF 
+cat >/tmp/hpa.yaml <<EOF
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -439,7 +436,7 @@ spec:
     kind: StatefulSet
     name: molecule
   minReplicas: 3
-  maxReplicas: 200
+  maxReplicas: 20
   metrics:
   - type: Resource
     resource:
@@ -448,6 +445,7 @@ spec:
         type: Utilization
         averageUtilization: 60
 EOF
+
 
 kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml --kubeconfig=/root/.kube/config
 
@@ -459,7 +457,7 @@ kubectl apply -f /tmp/persistentvolume.yaml --namespace=aks-boomi-molecule --kub
 
 kubectl apply -f /tmp/persistentvolumeclam.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-if [ $boomi_auth == "token" ]
+if [ $boomi_auth == "Token" ]
 then
 kubectl apply -f /tmp/statefulset_token.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 else
@@ -471,8 +469,6 @@ kubectl apply -f /tmp/services.yaml --namespace=aks-boomi-molecule --kubeconfig=
 kubectl apply -f /tmp/hpa.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 sleep 120
-
-#kubectl apply -f https://raw.githubusercontent.com/Ganesh-Yeole/quickstart-aks-boomi-molecule/Development/kubernetes/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 kubectl apply -f /tmp/ingress.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
