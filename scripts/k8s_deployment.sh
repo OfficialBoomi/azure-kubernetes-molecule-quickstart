@@ -113,7 +113,7 @@ mount -t nfs -o rw,hard,rsize=1048576,wsize=1048576,vers=3,tcp $netAppIP:/$files
 
 chmod -R 777 ~/$fileshare
 
-if [ $boomi_auth == "token" ]
+if [ $boomi_auth == "Token" ]
 then
 cat >/tmp/secrets.yaml <<EOF
 ---
@@ -457,7 +457,7 @@ kubectl apply -f /tmp/persistentvolume.yaml --namespace=aks-boomi-molecule --kub
 
 kubectl apply -f /tmp/persistentvolumeclam.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-if [ $boomi_auth == "token" ]
+if [ $boomi_auth == "Token" ]
 then
 kubectl apply -f /tmp/statefulset_token.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 else
