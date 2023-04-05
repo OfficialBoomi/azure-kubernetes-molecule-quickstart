@@ -184,7 +184,7 @@
                         "type": "Microsoft.Common.TextBox",
                         "label": "AKS Cluster Kubernetes Version",
                         "toolTip": "Specifies the version of Kubernetes specified when creating the managed cluster.",
-                        "defaultValue": "1.21.9",
+                        "defaultValue": "1.24.9",
                         "constraints": {
                             "required": true,
                             "regex": "^([0-9]{1,3}\\.){2}[0-9]{1,3}$",
