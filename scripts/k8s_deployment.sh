@@ -403,7 +403,7 @@ EOF
 
 cat >/tmp/hpa.yaml <<EOF
 ---
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: molecule-hpa
