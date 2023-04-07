@@ -286,7 +286,7 @@
   "resources": [
     { 
         "apiVersion": "2020-06-01",
-        "name": "pid-64321cf8-184f-493f-9eba-df278e66f68d",
+        "name": "pid-647a2fdf-73fa-45d6-a685-2ac5054f82e4-partnercenter",
         "type": "Microsoft.Resources/deployments",
         "properties": {
             "mode": "Incremental",
