@@ -284,6 +284,19 @@
         "nestedtemplateUri2": "[uri(parameters('_artifactsLocation'), variables('nestedtemplatevar2') )]"
    },
   "resources": [
+    { 
+        "apiVersion": "2020-06-01",
+        "name": "pid-64321cf8-184f-493f-9eba-df278e66f68d",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+            "mode": "Incremental",
+            "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "resources": []
+            }
+        }
+    },
     {
       "name": "BoomiLicenseValidation",
       "type": "Microsoft.Resources/deployments",
